@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Swifters Technologies — Coming Soon</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      font-family: 'Barlow', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #faf5ee;
+    }
+
+    .wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 24px 16px;
+      animation: fadeIn 0.8s ease both;
+    }
+
+    .logo {
+      width: 120px;
+      height: 120px;
+      border-radius: 28px;
+      object-fit: cover;
+      margin-bottom: 28px;
+      box-shadow: 0 8px 32px rgba(192,57,43,0.15);
+    }
+
+    .name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #7b1a10;
+      margin-bottom: 6px;
+    }
+
+    .sub {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 3.5px;
+      text-transform: uppercase;
+      color: #b07060;
+      margin-bottom: 40px;
+    }
+
+    .divider {
+      width: 40px;
+      height: 2px;
+      background: #c0392b;
+      border-radius: 2px;
+      margin-bottom: 40px;
+      opacity: 0.4;
+    }
+
+    .message {
+      font-size: 15px;
+      font-weight: 400;
+      line-height: 1.7;
+      color: #7a3b30;
+      max-width: 300px;
+    }
+
+    footer {
+      position: fixed;
+      bottom: 24px;
+      font-size: 12px;
+      color: #b07060;
+      letter-spacing: 0.3px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="wrap">
+    <img class="logo" src="logo.png" alt="Swifters Technologies" />
+    <div class="name">Swifters Technologies</div>
+    <div class="sub">Automate Everything</div>
+    <div class="divider"></div>
+    <p class="message">Our website is currently under development.<br>We're preparing something better.</p>
+  </div>
+
+  <footer>© 2025 Swifters Technologies</footer>
+
+</body>
+</html>
