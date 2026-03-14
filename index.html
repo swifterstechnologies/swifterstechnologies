@@ -1,110 +1,1010 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Swifters Technologies — Coming Soon</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>River by Swifters Technologies</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  /* Base Colors */
+  --cream: #faf5ee;
+  --cream2: #f3ebe0;
+  --cream3: #ede3d4;
+  --red: #c0392b;
+  --red-deep: #7b1a10;
+  --red-soft: rgba(192,57,43,.12);
+  --charcoal: #1a1008;
+  --charcoal2: #3b2010;
+  --muted: #9a6a55;
+  
+  /* Material Expressive & Liquid Glass Variables */
+  --glass-bg: rgba(255, 255, 255, 0.5);
+  --glass-blur: blur(24px) saturate(180%);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.7);
+  --glass-shadow: 0 8px 32px rgba(123, 26, 16, 0.06), inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+  --shadow-hover: 0 16px 48px rgba(123, 26, 16, 0.12), inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+  
+  --font-head: 'Sora', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --nav-h: 72px;
+}
 
-    html, body {
-      height: 100%;
-      font-family: 'Barlow', sans-serif;
-      -webkit-font-smoothing: antialiased;
-    }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;font-size:16px;}
 
-    body {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      background: #faf5ee;
-    }
+body{
+  font-family:var(--font-body);
+  /* Added a subtle gradient to make the frosted glass pop */
+  background: radial-gradient(circle at 15% 0%, #ffffff 0%, var(--cream) 40%, var(--cream2) 100%);
+  color:var(--charcoal);
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
 
-    .wrap {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      padding: 24px 16px;
-      animation: fadeIn 0.8s ease both;
-    }
+/* ── Flowing background lines (Now sits behind the glass) ── */
+.flow-bg{
+  position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;
+}
+.flow-bg svg{width:100%;height:100%;opacity:.15;}
+.flow-line{
+  stroke:var(--red);stroke-width:1.2;fill:none;
+  stroke-dasharray:12 6;
+  animation:flowDown 18s linear infinite;
+}
+.flow-line:nth-child(2){animation-delay:-6s;opacity:.6;}
+.flow-line:nth-child(3){animation-delay:-12s;opacity:.4;}
+@keyframes flowDown{
+  from{stroke-dashoffset:0;}
+  to{stroke-dashoffset:-120;}
+}
 
-    .logo {
-      width: 120px;
-      height: 120px;
-      border-radius: 28px;
-      object-fit: cover;
-      margin-bottom: 28px;
-      box-shadow: 0 8px 32px rgba(192,57,43,0.15);
-    }
+/* ── Navbar (Liquid Glass) ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  height:var(--nav-h);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-bottom: var(--glass-border);
+  transition:height .3s ease,box-shadow .3s ease, background .3s ease;
+}
+nav.scrolled{
+  height:60px;
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 4px 24px rgba(123,26,16,.06);
+}
+.nav-inner{
+  max-width:1100px;margin:0 auto;
+  padding:0 32px;
+  height:100%;
+  display:flex;align-items:center;justify-content:space-between;
+  position:relative;z-index:2; 
+}
+.nav-logo{
+  display:flex;align-items:center;gap:12px;text-decoration:none;
+  z-index: 101;
+}
+.nav-logo img{
+  width:40px;height:40px;border-radius:12px;
+  object-fit:cover;
+  box-shadow:0 4px 12px rgba(192,57,43,.15);
+}
+.nav-logo-text{
+  font-family:var(--font-head);
+  font-size:17px;font-weight:700;
+  color:var(--red-deep);
+  letter-spacing:.2px;
+}
+.nav-logo-sub{
+  font-size:9.5px;font-weight:600;
+  color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;
+  display:block;line-height:1;margin-top:2px;
+}
 
-    .name {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 26px;
-      font-weight: 700;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: #7b1a10;
-      margin-bottom: 6px;
-    }
+/* Wrapper for Links + CTA */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+}
 
-    .sub {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 3.5px;
-      text-transform: uppercase;
-      color: #b07060;
-      margin-bottom: 40px;
-    }
+.nav-links{
+  display:flex;gap:36px;list-style:none;
+}
+.nav-links a{
+  font-size:14px;font-weight:600;color:var(--charcoal);
+  text-decoration:none;letter-spacing:.2px;
+  transition:color .2s;
+  position:relative;
+}
+.nav-links a::after{
+  content:'';position:absolute;bottom:-4px;left:0;right:0;height:2px;
+  background:var(--red);border-radius:2px;
+  transform:scaleX(0);transition:transform .25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.nav-links a:hover{color:var(--red);}
+.nav-links a:hover::after{transform:scaleX(1);}
+.nav-cta{
+  background:var(--red);color:#fff;
+  font-family:var(--font-body);font-size:14px;font-weight:600;
+  padding:12px 26px;border-radius:100px;border:none;cursor:pointer;
+  transition:all .25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow:0 4px 12px rgba(192,57,43,.25);
+  text-decoration:none;
+}
+.nav-cta:hover{
+  background:var(--red-deep);
+  transform:translateY(-2px);
+  box-shadow:0 8px 24px rgba(192,57,43,.35);
+}
 
-    .divider {
-      width: 40px;
-      height: 2px;
-      background: #c0392b;
-      border-radius: 2px;
-      margin-bottom: 40px;
-      opacity: 0.4;
-    }
+/* Hamburger Button */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  width: 40px;
+  height: 40px;
+  background: var(--glass-bg);
+  border: var(--glass-border);
+  border-radius: 12px;
+  cursor: pointer;
+  z-index: 101;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+.menu-toggle span {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background-color: var(--charcoal);
+  border-radius: 2px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  margin: 0 auto;
+}
 
-    .message {
-      font-size: 15px;
-      font-weight: 400;
-      line-height: 1.7;
-      color: #7a3b30;
-      max-width: 300px;
-    }
+/* Wave below nav */
+.nav-wave{
+  position:absolute;bottom:-18px;left:0;right:0;height:20px;overflow:hidden;
+  pointer-events:none;
+  z-index:1;
+}
+.nav-wave svg{
+  width:200%;height:100%;
+  animation:waveSlide 8s linear infinite;
+}
+nav.scrolled .nav-wave svg{animation-duration:12s;}
+@keyframes waveSlide{
+  from{transform:translateX(0);}
+  to{transform:translateX(-50%);}
+}
 
-    footer {
-      position: fixed;
-      bottom: 24px;
-      font-size: 12px;
-      color: #b07060;
-      letter-spacing: 0.3px;
-    }
+/* ── Sections base ── */
+section{position:relative;z-index:1;}
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-  </style>
+/* ── HERO ── */
+#hero{
+  min-height: 100vh;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;
+  /* Fixed padding: Use flex/margin to handle vertical spacing naturally */
+  padding: calc(var(--nav-h) + 60px) 24px 60px;
+}
+
+/* Glass Pill Badge */
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  color:var(--red);font-size:11px;font-weight:700;
+  letter-spacing:1.5px;text-transform:uppercase;
+  padding:8px 20px;border-radius:100px;
+  margin-bottom:40px;
+  animation:fadeUp .7s .1s ease both;
+}
+.badge-dot{width:6px;height:6px;border-radius:50%;background:var(--red);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.3;transform:scale(.7);}}
+
+.hero-logo-wrap{
+  margin-bottom:32px;
+  animation:fadeUp .7s .0s ease both;
+}
+.hero-logo-wrap img{
+  width:100px;height:100px;border-radius:28px; /* Material 3 curve */
+  object-fit:cover;
+  box-shadow:0 12px 40px rgba(192,57,43,.15);
+  border: 4px solid rgba(255,255,255,0.8);
+}
+.hero-company{
+  font-family:var(--font-head);
+  font-size:14px;font-weight:700;
+  letter-spacing:3px;text-transform:uppercase;
+  color:var(--muted);margin-bottom:12px;
+  animation:fadeUp .7s .15s ease both;
+}
+.hero-title{
+  font-family:var(--font-head);
+  font-size:clamp(48px,11vw,130px);
+  font-weight:800;line-height:.95;
+  letter-spacing:-3px;
+  color:var(--red-deep);
+  margin-bottom:24px;
+  animation:fadeUp .8s .2s ease both;
+}
+.hero-tagline{
+  font-family:var(--font-head);
+  font-size:clamp(18px,2.5vw,24px);
+  font-weight:600;line-height:1.35;
+  color:var(--charcoal);
+  max-width:600px;margin:0 auto 16px;
+  animation:fadeUp .7s .3s ease both;
+}
+.hero-sub{
+  font-size:clamp(15px,1.6vw,17px);
+  font-weight:400;line-height:1.7;
+  color:var(--muted);
+  max-width:520px;margin:0 auto 48px;
+  animation:fadeUp .7s .38s ease both;
+}
+
+/* Fixed Hero Actions Layout */
+.hero-actions{
+  display:flex;gap:16px;justify-content:center;
+  animation:fadeUp .7s .46s ease both;
+  width: 100%;
+  max-width: 400px;
+}
+
+.btn-primary{
+  background:var(--red);color:#fff;
+  font-family:var(--font-body);font-size:15px;font-weight:600;
+  padding:16px 36px;border-radius:100px;border:none;cursor:pointer;
+  box-shadow:0 8px 24px rgba(192,57,43,.25);
+  transition:all .3s cubic-bezier(0.4, 0, 0.2, 1);text-decoration:none;
+  display:flex; justify-content:center; align-items:center;
+  flex: 1;
+}
+.btn-primary:hover{background:var(--red-deep);transform:translateY(-3px);box-shadow:0 12px 32px rgba(192,57,43,.35);}
+
+.btn-ghost{
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  color:var(--red-deep);
+  font-family:var(--font-body);font-size:15px;font-weight:600;
+  padding:16px 36px;border-radius:100px;
+  border: 1px solid rgba(192,57,43,.2);
+  cursor:pointer;transition:all .3s cubic-bezier(0.4, 0, 0.2, 1);text-decoration:none;
+  display:flex; justify-content:center; align-items:center;
+  flex: 1;
+}
+.btn-ghost:hover{
+  border-color:var(--red);
+  background: rgba(255,255,255,0.8);
+  transform:translateY(-3px);
+  box-shadow: 0 8px 24px rgba(123, 26, 16, 0.08);
+}
+
+/* Scroll hint - Put back into relative document flow to prevent overlapping */
+.scroll-hint{
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  animation:fadeUp .7s .7s ease both;
+  margin-top: auto; /* Pushes it to the bottom safely */
+  padding-top: 60px; 
+}
+.scroll-hint span{font-size:11px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);}
+.scroll-arrow{
+  width:24px;height:36px;border:1.5px solid rgba(192,57,43,.3);border-radius:100px;
+  position:relative;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+}
+.scroll-arrow::after{
+  content:'';position:absolute;top:6px;left:50%;transform:translateX(-50%);
+  width:4px;height:8px;border-radius:4px;background:var(--red);
+  animation:scrollBob 1.6s ease-in-out infinite;
+}
+@keyframes scrollBob{0%,100%{top:6px;opacity:1;}50%{top:16px;opacity:.3;}}
+
+/* ── Section divider ── */
+.river-divider{
+  display:flex;align-items:center;justify-content:center;
+  padding:0 24px;margin:0 auto;
+  max-width:800px;
+  position:relative;z-index:1;
+}
+.river-divider::before,.river-divider::after{
+  content:'';flex:1;height:1px;
+  background:linear-gradient(to right,transparent,rgba(192,57,43,.2),transparent);
+}
+.river-drop{
+  width:8px;height:8px;border-radius:50%;
+  background:var(--red);opacity:.35;
+  margin:0 16px;
+}
+
+/* ── Shared Headings ── */
+.section-label{
+  font-size:12px;font-weight:700;letter-spacing:2.5px;
+  text-transform:uppercase;color:var(--red);
+  margin-bottom:16px;
+  display: inline-block;
+  background: var(--red-soft);
+  padding: 6px 16px;
+  border-radius: 100px;
+}
+
+/* ── PROBLEM ── */
+#problem{padding:120px 24px;}
+.problem-inner{max-width:1100px;margin:0 auto;}
+.problem-heading{
+  font-family:var(--font-head);
+  font-size:clamp(32px,4vw,48px);font-weight:800;
+  line-height:1.15;letter-spacing:-1.5px;
+  color:var(--charcoal);margin-bottom:16px;
+}
+.problem-heading span{color:var(--red);}
+.problem-sub{
+  font-size:16px;color:var(--muted);
+  max-width:540px;line-height:1.7;margin-bottom:64px;
+}
+.problem-cards{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:24px;
+}
+
+/* Material 3 Glass Cards */
+.prob-card{
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+  border-radius: 28px; /* Material 3 large curve */
+  padding:40px 32px;
+  box-shadow: var(--glass-shadow);
+  transition:all .4s cubic-bezier(0.4, 0, 0.2, 1);
+  position:relative;overflow:hidden;
+}
+.prob-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:4px;
+  background:linear-gradient(90deg,var(--red-deep),var(--red));
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.prob-card:hover{
+  transform:translateY(-8px);
+  box-shadow: var(--shadow-hover);
+  background: rgba(255,255,255,0.7);
+}
+.prob-card:hover::before{transform:scaleX(1);}
+.prob-num{
+  font-family:var(--font-head);
+  font-size:48px;font-weight:800;
+  color:var(--red);letter-spacing:-2px;
+  margin-bottom:12px;line-height:1;
+}
+.prob-title{
+  font-family:var(--font-head);
+  font-size:17px;font-weight:700;
+  color:var(--charcoal);margin-bottom:10px;
+}
+.prob-desc{font-size:14.5px;color:var(--muted);line-height:1.65;}
+
+/* ── PILLARS ── */
+#pillars{padding:120px 24px;}
+.pillars-inner{max-width:1100px;margin:0 auto;}
+.pillars-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:64px;
+}
+
+.pillar-card{
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+  border-radius: 28px;
+  padding:48px 36px;
+  box-shadow: var(--glass-shadow);
+  transition:all .4s cubic-bezier(0.4, 0, 0.2, 1);
+  position:relative;overflow:hidden;
+  cursor:default;
+}
+.pillar-card::after{
+  content:'';
+  position:absolute;inset:0;
+  background:radial-gradient(circle at 50% 110%,rgba(192,57,43,.06) 0%,transparent 70%);
+  opacity:0;transition:opacity .4s ease;
+  pointer-events:none;
+}
+.pillar-card:hover{
+  transform:translateY(-8px);
+  box-shadow: var(--shadow-hover);
+  background: rgba(255,255,255,0.7);
+}
+.pillar-card:hover::after{opacity:1;}
+.pillar-icon{
+  width:64px;height:64px;border-radius:20px;
+  background:var(--red-soft);
+  color: var(--red);
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:28px;
+  font-size:28px;
+  box-shadow: inset 0 0 0 1px rgba(192,57,43,.1);
+}
+.pillar-num{
+  font-family:var(--font-head);
+  font-size:12px;font-weight:700;
+  letter-spacing:2px;text-transform:uppercase;
+  color:var(--red);margin-bottom:12px;
+}
+.pillar-title{
+  font-family:var(--font-head);
+  font-size:22px;font-weight:800;
+  color:var(--charcoal);
+  letter-spacing:-.5px;margin-bottom:16px;line-height:1.2;
+}
+.pillar-desc{font-size:15px;color:var(--muted);line-height:1.7;}
+.pillar-tag{
+  display:inline-block;margin-top:24px;
+  background:var(--red-soft);color:var(--red);
+  font-size:12px;font-weight:600;
+  padding:6px 16px;border-radius:100px;
+  border:1px solid rgba(192,57,43,.15);
+  letter-spacing:.5px;
+}
+
+/* ── 90/10 ── */
+#rule{padding:120px 24px;}
+.rule-inner{
+  max-width:1000px;margin:0 auto;
+  display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start;
+}
+.rule-side-label{
+  font-family:var(--font-head);
+  font-size:clamp(48px,7vw,84px); 
+  font-weight:800;
+  line-height:1;letter-spacing:-3px;margin-bottom:12px;
+}
+.rule-side-label.r90{color:var(--red);}
+.rule-side-label.r10{color:var(--cream3);}
+.r10-wrap .rule-side-label{color:var(--charcoal);}
+.rule-side-subtitle{
+  font-family:var(--font-head);
+  font-size:18px;font-weight:700;
+  color:var(--charcoal2);margin-bottom:32px;
+}
+.rule-list{list-style:none;display:flex;flex-direction:column;gap:16px;}
+.rule-list li{
+  display:flex;align-items:flex-start;gap:16px;
+  font-size:15px;color:var(--charcoal2);line-height:1.6;
+  opacity:0;transform:translateX(-16px);
+  transition:opacity .5s ease,transform .5s ease;
+  background: var(--glass-bg);
+  padding: 12px 20px;
+  border-radius: 16px;
+  border: var(--glass-border);
+}
+.rule-list li.visible{opacity:1;transform:translateX(0);}
+.r10-wrap .rule-list li{transform:translateX(16px);}
+.r10-wrap .rule-list li.visible{transform:translateX(0);}
+.check{
+  width:24px;height:24px;min-width:24px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;margin-top:0px;
+}
+.check-r{background:rgba(192,57,43,.12);color:var(--red);}
+.check-g{background:rgba(40,120,60,.12);color:#2c7a3e;}
+
+/* ── WORKFLOWS ── */
+#workflows{padding:120px 24px;}
+.workflows-inner{max-width:1000px;margin:0 auto;}
+.wf-panels{display:flex;flex-direction:column;gap:80px;margin-top:64px;}
+.wf-panel{
+  display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;
+}
+.wf-panel.reverse{direction:rtl;}
+.wf-panel.reverse > *{direction:ltr;}
+.wf-visual{
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+  border-radius:32px; /* Extra round */
+  padding:48px;
+  box-shadow: var(--glass-shadow);
+  min-height:240px;
+  display:flex;flex-direction:column;justify-content:center;
+  position:relative;overflow:hidden;
+}
+.wf-visual::before{
+  content:'';
+  position:absolute;top:-60px;right:-60px;
+  width:180px;height:180px;border-radius:50%;
+  background:radial-gradient(circle,rgba(192,57,43,.06) 0%,transparent 70%);
+}
+.wf-step-num{
+  font-family:var(--font-head);
+  font-size:80px;font-weight:800;
+  color:rgba(192,57,43,.05);
+  letter-spacing:-4px;line-height:1;
+  position:absolute;bottom:16px;right:24px;
+}
+.wf-icon-big{font-size:42px;margin-bottom:20px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));}
+.wf-visual-title{
+  font-family:var(--font-head);
+  font-size:20px;font-weight:800;
+  color:var(--charcoal);margin-bottom:10px;
+}
+.wf-visual-stat{
+  font-size:14px;color:var(--muted);line-height:1.6;
+}
+.wf-time{
+  display:inline-flex;align-items:center;gap:8px;margin-top:20px;
+  background:var(--red-soft);border:1px solid rgba(192,57,43,.15);
+  color:var(--red);font-size:13px;font-weight:700;
+  padding:6px 16px;border-radius:100px;
+}
+.wf-num-label{
+  font-size:12px;font-weight:700;letter-spacing:2px;
+  text-transform:uppercase;color:var(--red);margin-bottom:12px;
+}
+.wf-title{
+  font-family:var(--font-head);
+  font-size:clamp(24px,2.5vw,32px);font-weight:800;
+  color:var(--charcoal);letter-spacing:-.5px;
+  margin-bottom:16px;line-height:1.2;
+}
+.wf-body{font-size:15.5px;color:var(--muted);line-height:1.7;margin-bottom:24px;}
+.wf-steps{display:flex;flex-direction:column;gap:14px;}
+.wf-step{
+  display:flex;align-items:flex-start;gap:12px;
+  font-size:14.5px;color:var(--charcoal2);line-height:1.5;
+}
+.wf-step-dot{
+  width:22px;height:22px;min-width:22px;border-radius:50%;
+  background:var(--red-soft);border:1.5px solid rgba(192,57,43,.2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;font-weight:800;color:var(--red);margin-top:0px;
+}
+
+/* ── FOOTER ── */
+footer{
+  background: var(--glass-bg);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  border-top:1px solid rgba(255,255,255,0.8);
+  padding:64px 32px;
+  text-align:center;
+  position:relative;z-index:1;
+}
+.footer-logo{
+  display:flex;align-items:center;justify-content:center;gap:12px;
+  margin-bottom:20px;
+}
+.footer-logo img{
+  width:40px;height:40px;border-radius:12px;
+  object-fit:cover;
+}
+.footer-name{
+  font-family:var(--font-head);
+  font-size:16px;font-weight:800;
+  color:var(--red-deep);letter-spacing:.5px;
+}
+.footer-tagline{
+  font-size:12px;font-weight:700;color:var(--muted);
+  letter-spacing:2px;text-transform:uppercase;
+  margin-bottom:24px;
+}
+.footer-copy{
+  font-size:13px;color:var(--muted);
+  letter-spacing:.3px;
+}
+
+/* ── Scroll reveal ── */
+.reveal{
+  opacity:0;transform:translateY(32px);
+  transition:opacity .7s cubic-bezier(0.4, 0, 0.2, 1),transform .7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+/* ── Animations ── */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(24px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+/* section headings shared */
+.sec-head-wrap{text-align:center;margin-bottom:24px;}
+.sec-title{
+  font-family:var(--font-head);
+  font-size:clamp(32px,4vw,48px);font-weight:800;
+  letter-spacing:-1.5px;color:var(--charcoal);line-height:1.15;
+}
+.sec-title span{color:var(--red);}
+.sec-body{font-size:16px;color:var(--muted);max-width:500px;margin:16px auto 0;line-height:1.7;}
+
+/* ── Responsive ── */
+@media(max-width:900px){
+  .problem-cards,.pillars-grid{grid-template-columns:1fr 1fr;}
+  .rule-inner{grid-template-columns:1fr; gap:40px;}
+  .wf-panel,.wf-panel.reverse{grid-template-columns:1fr;direction:ltr; gap: 40px;}
+  .r10-wrap .rule-list li { transform: translateX(0); }
+  
+  /* Mobile Top Navbar Override - Glassmorphism Menu */
+  .menu-toggle { display: flex; }
+  
+  /* Hide the subtitle on smaller screens to un-cramp the header */
+  .nav-logo-sub { display: none; }
+  
+  .nav-actions {
+    position: absolute;
+    top: 100%;
+    left: 16px;
+    right: 16px;
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(32px) saturate(200%);
+    -webkit-backdrop-filter: blur(32px) saturate(200%);
+    flex-direction: column;
+    padding: 32px 24px 40px;
+    gap: 32px;
+    border-radius: 28px;
+    box-shadow: 0 24px 64px rgba(123,26,16,.15), inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+    transform: translateY(-20px) scale(0.95);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .nav-actions.active {
+    opacity: 1;
+    transform: translateY(16px) scale(1);
+    pointer-events: auto;
+  }
+  
+  .nav-links {
+    flex-direction: column;
+    gap: 24px;
+    text-align: center;
+    width: 100%;
+  }
+  
+  .nav-links a {
+    font-size: 16px;
+    display: block;
+    padding: 12px;
+  }
+  
+  .nav-cta {
+    width: 100%;
+    text-align: center;
+    padding: 16px;
+  }
+  
+  /* Hamburger Animation */
+  .menu-toggle.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+  .menu-toggle.active span:nth-child(2) { opacity: 0; }
+  .menu-toggle.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+}
+
+@media(max-width:600px){
+  .problem-cards,.pillars-grid{grid-template-columns:1fr;}
+  .hero-title{letter-spacing:-2px;}
+  nav{padding:0;}
+  .nav-inner{padding:0 20px;}
+  
+  /* Stack the buttons on mobile so they don't squash */
+  .hero-actions {
+    flex-direction: column;
+  }
+  
+  #problem, #pillars, #rule, #workflows { padding: 80px 20px; }
+  #hero { padding: calc(var(--nav-h) + 40px) 20px 60px; }
+}
+
+</style>
 </head>
 <body>
 
-  <div class="wrap">
-    <img class="logo" src="logo.png" alt="Swifters Technologies" />
-    <div class="name">Swifters Technologies</div>
-    <div class="sub">Automate Everything</div>
-    <div class="divider"></div>
-    <p class="message">Our website is currently under development.<br>We're preparing something better.</p>
+<div class="flow-bg">
+  <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <path class="flow-line" d="M200,0 C220,150 180,300 210,450 C240,600 200,750 220,900"/>
+    <path class="flow-line" d="M720,0 C740,150 700,300 730,450 C760,600 720,750 740,900"/>
+    <path class="flow-line" d="M1200,0 C1220,150 1180,300 1210,450 C1240,600 1200,750 1220,900"/>
+  </svg>
+</div>
+
+<nav id="navbar">
+  <div class="nav-inner">
+    <a class="nav-logo" href="#hero">
+      <img src="logo.png" alt="Swifters"/>
+      <div>
+        <span class="nav-logo-text">River</span>
+        <span class="nav-logo-sub">by Swifters Technologies</span>
+      </div>
+    </a>
+    
+    <button class="menu-toggle" aria-label="Toggle Navigation">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <div class="nav-actions">
+      <ul class="nav-links">
+        <li><a href="#problem">Problems</a></li>
+        <li><a href="#pillars">Pillars</a></li>
+        <li><a href="#rule">90/10 Rule</a></li>
+        <li><a href="#workflows">Workflows</a></li>
+      </ul>
+      <a class="nav-cta" href="#hero">Request Early Access</a>
+    </div>
   </div>
+  
+  <div class="nav-wave">
+    <svg viewBox="0 0 1440 20" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,10 C120,20 240,0 360,10 C480,20 600,0 720,10 C840,20 960,0 1080,10 C1200,20 1320,0 1440,10 C1440,10 1440,10 1440,20 L0,20 Z" fill="rgba(192,57,43,0.04)"/>
+      <path d="M0,10 C120,20 240,0 360,10 C480,20 600,0 720,10 C840,20 960,0 1080,10 C1200,20 1320,0 1440,10" stroke="rgba(192,57,43,0.1)" stroke-width="1" fill="none"/>
+    </svg>
+  </div>
+</nav>
 
-  <footer>© 2025 Swifters Technologies</footer>
+<section id="hero">
+  <div class="hero-badge"><div class="badge-dot"></div>Coming Soon — Under Development</div>
+  <div class="hero-logo-wrap">
+    <img src="logo.png" alt="Swifters Technologies"/>
+  </div>
+  <div class="hero-company">Swifters Technologies</div>
+  <h1 class="hero-title">River</h1>
+  <p class="hero-tagline">The First Self-Driving Hospital ERP<br>for Indian Healthcare</p>
+  <p class="hero-sub">An Agentic AI workforce that does 90% of the heavy lifting — so your staff only handles the final approval.</p>
+  
+  <div class="hero-actions">
+    <a class="btn-primary" href="#">Request Early Access</a>
+    <a class="btn-ghost" href="#pillars">See How It Works</a>
+  </div>
+  
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
 
+<div class="river-divider"><div class="river-drop"></div></div>
+
+<section id="problem">
+  <div class="problem-inner">
+    <div class="reveal">
+      <div class="section-label">The Problem</div>
+      <h2 class="problem-heading">Indian hospitals lose crores<br><span>every single day.</span></h2>
+      <p class="problem-sub">Legacy ERPs force staff to do 100% of the data work. The result is predictable — and costly.</p>
+    </div>
+    <div class="problem-cards">
+      <div class="prob-card reveal">
+        <div class="prob-num">18–22%</div>
+        <div class="prob-title">Average Claim Denial Rate</div>
+        <div class="prob-desc">Insurance claims rejected due to missing documents, unbilled consumables, and non-compliant discharge summaries.</div>
+      </div>
+      <div class="prob-card reveal" style="transition-delay:.1s">
+        <div class="prob-num">4+ hrs</div>
+        <div class="prob-title">Lost to Manual Invoice Entry</div>
+        <div class="prob-desc">Staff manually key in distributor invoices line by line, with no expiry checks, no price validation, and no audit trail.</div>
+      </div>
+      <div class="prob-card reveal" style="transition-delay:.2s">
+        <div class="prob-num">₹Crores</div>
+        <div class="prob-title">Revenue Leakage Yearly</div>
+        <div class="prob-desc">Unbilled consumables — sutures, gloves, anesthesia — walk out the door every day without appearing on a single invoice.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="river-divider"><div class="river-drop"></div></div>
+
+<section id="pillars">
+  <div class="pillars-inner">
+    <div class="sec-head-wrap reveal">
+      <div class="section-label">The 3-Pillar MVP</div>
+      <h2 class="sec-title">River's Agentic <span>Workforce</span></h2>
+      <p class="sec-body">Three autonomous agents working in parallel — each handling a major pain point end-to-end.</p>
+    </div>
+    <div class="pillars-grid">
+      <div class="pillar-card reveal">
+        <div class="pillar-icon">🏭</div>
+        <div class="pillar-num">Pillar 01</div>
+        <div class="pillar-title">Autonomous Supply Chain</div>
+        <div class="pillar-desc">Drop a crumpled invoice photo. River extracts every line item, maps it against the Master Catalog, flags near-expiry batches, and drafts the complete GRN. You click Approve.</div>
+        <span class="pillar-tag">Zero-UI Inwarding</span>
+      </div>
+      <div class="pillar-card reveal" style="transition-delay:.12s">
+        <div class="pillar-icon">🩺</div>
+        <div class="pillar-num">Pillar 02</div>
+        <div class="pillar-title">Clinical Orchestrator</div>
+        <div class="pillar-desc">Doctors dictate. River listens, routes the prescription to pharmacy, and drafts the bill with GST/HSN codes — all before the patient reaches the counter.</div>
+        <span class="pillar-tag">Voice-to-Pharmacy</span>
+      </div>
+      <div class="pillar-card reveal" style="transition-delay:.24s">
+        <div class="pillar-icon">💰</div>
+        <div class="pillar-num">Pillar 03</div>
+        <div class="pillar-title">Zero-Denial Revenue Auditor</div>
+        <div class="pillar-desc">River cross-references every clinical note against the billing ledger in real time. If a suture is used but not billed, River catches it before the patient leaves.</div>
+        <span class="pillar-tag">Real-time Leakage Guard</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="river-divider"><div class="river-drop"></div></div>
+
+<section id="rule">
+  <div style="max-width:1000px;margin:0 auto;padding:0 0 0 0;">
+    <div class="sec-head-wrap reveal" style="margin-bottom:64px;">
+      <div class="section-label">The Core Philosophy</div>
+      <h2 class="sec-title">The <span>90/10</span> Rule</h2>
+      <p class="sec-body">River is a System of Action — not a System of Record. It does the work. Your staff approves the outcome.</p>
+    </div>
+    <div class="rule-inner">
+      <div class="reveal">
+        <div class="rule-side-label r90">90%</div>
+        <div class="rule-side-subtitle">River handles this.</div>
+        <ul class="rule-list" id="river-list">
+          <li><div class="check check-r">✓</div>Extract & standardise every invoice line item</li>
+          <li><div class="check check-r">✓</div>Cross-check prices vs. contracted rates</li>
+          <li><div class="check check-r">✓</div>Flag expiring batches before shelf entry</li>
+          <li><div class="check check-r">✓</div>Route prescriptions to pharmacy & billing simultaneously</li>
+          <li><div class="check check-r">✓</div>Detect unbilled consumables in real time</li>
+          <li><div class="check check-r">✓</div>Compile NABH-compliant discharge summaries</li>
+          <li><div class="check check-r">✓</div>Auto-map clinical data to insurance packages</li>
+        </ul>
+      </div>
+      <div class="r10-wrap reveal" style="transition-delay:.15s">
+        <div class="rule-side-label" style="color:var(--charcoal)">10%</div>
+        <div class="rule-side-subtitle">Your team approves.</div>
+        <ul class="rule-list" id="human-list">
+          <li><div class="check check-g">✓</div>Review GRN and click Approve & Commit</li>
+          <li><div class="check check-g">✓</div>Doctor signs the clinical note digitally</li>
+          <li><div class="check check-g">✓</div>Confirm medication handover to patient</li>
+          <li><div class="check check-g">✓</div>Approve or reject leakage alert additions</li>
+          <li><div class="check check-g">✓</div>Click Verify & Submit Batch for insurance</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="river-divider"><div class="river-drop"></div></div>
+
+<section id="workflows">
+  <div class="workflows-inner">
+    <div class="sec-head-wrap reveal">
+      <div class="section-label">A Day With River</div>
+      <h2 class="sec-title">Three <span>Stories.</span> One Morning.</h2>
+      <p class="sec-body">Real workflows that play out every single day in Tier-2 and Tier-3 hospitals across India.</p>
+    </div>
+    <div class="wf-panels">
+
+      <div class="wf-panel reveal">
+        <div class="wf-visual">
+          <div class="wf-icon-big">📦</div>
+          <div class="wf-visual-title">Magic Inward & Expiry Catch</div>
+          <div class="wf-visual-stat">150 items processed. 1 batch flagged. 0 manual keystrokes.</div>
+          <div class="wf-time">⏱ 2 minutes total</div>
+          <div class="wf-step-num">01</div>
+        </div>
+        <div class="wf-content">
+          <div class="wf-num-label">Workflow 01</div>
+          <div class="wf-title">The "Magic Inward" & Expiry Catch</div>
+          <div class="wf-body">A distributor drops off a massive monthly shipment with a crumpled 3-page invoice. No typing. No spreadsheets.</div>
+          <div class="wf-steps">
+            <div class="wf-step"><div class="wf-step-dot">1</div>Admin snaps photos of the invoice using River app.</div>
+            <div class="wf-step"><div class="wf-step-dot">2</div>River processes 150 items, maps names, checks prices.</div>
+            <div class="wf-step"><div class="wf-step-dot">3</div>Red warning: "Batch AB123 of Azithromycin expires in 4 months — Policy violation."</div>
+            <div class="wf-step"><div class="wf-step-dot">4</div>River drafts RTV request. Admin clicks Yes. Done.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="wf-panel reverse reveal">
+        <div class="wf-visual">
+          <div class="wf-icon-big">🎤</div>
+          <div class="wf-visual-title">Paperless Patient Handoff</div>
+          <div class="wf-visual-stat">Prescription → Bill → Payment. Before the patient walks over.</div>
+          <div class="wf-time">⏱ Seconds</div>
+          <div class="wf-step-num">02</div>
+        </div>
+        <div class="wf-content">
+          <div class="wf-num-label">Workflow 02</div>
+          <div class="wf-title">The Paperless Patient Handoff</div>
+          <div class="wf-body">Doctor finishes a consult and speaks into River. By the time the patient walks to the pharmacy, everything is ready.</div>
+          <div class="wf-steps">
+            <div class="wf-step"><div class="wf-step-dot">1</div>Doctor dictates: "Paracetamol 650mg for 3 days, cough syrup for Selvi."</div>
+            <div class="wf-step"><div class="wf-step-dot">2</div>River checks stock, drafts bill with GST/HSN codes.</div>
+            <div class="wf-step"><div class="wf-step-dot">3</div>Pharmacy admin sees Selvi approach: "That'll be ₹180."</div>
+            <div class="wf-step"><div class="wf-step-dot">4</div>Patient pays via UPI QR on tablet. Leaves in 60 seconds.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="wf-panel reveal">
+        <div class="wf-visual">
+          <div class="wf-icon-big">📋</div>
+          <div class="wf-visual-title">End-of-Day RCM Clearance</div>
+          <div class="wf-visual-stat">Zero missing documents. Zero claim delays. One click to submit.</div>
+          <div class="wf-time">⏱ 8 PM. Done in minutes.</div>
+          <div class="wf-step-num">03</div>
+        </div>
+        <div class="wf-content">
+          <div class="wf-num-label">Workflow 03</div>
+          <div class="wf-title">End-of-Day RCM Clearance</div>
+          <div class="wf-body">No more hunting physical signatures or missing documents — the single biggest cause of 30–40% claim delays.</div>
+          <div class="wf-steps">
+            <div class="wf-step"><div class="wf-step-dot">1</div>RCM Manager opens River at 8 PM.</div>
+            <div class="wf-step"><div class="wf-step-dot">2</div>River has compiled complete, NABH-compliant discharge summaries.</div>
+            <div class="wf-step"><div class="wf-step-dot">3</div>Clinical data auto-mapped to exact insurance packages.</div>
+            <div class="wf-step"><div class="wf-step-dot">4</div>Manager clicks "Verify & Submit Batch." Revenue secured.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">
+    <img src="logo.png" alt="Swifters"/>
+    <div>
+      <div class="footer-name">Swifters Technologies</div>
+    </div>
+  </div>
+  <div class="footer-tagline">Automate Everything</div>
+  <div class="footer-copy">© 2025 Swifters Technologies · Website under development · River is coming soon.</div>
+</footer>
+
+<script>
+// Navbar scroll
+const navbar=document.getElementById('navbar');
+window.addEventListener('scroll',()=>{
+  if(window.scrollY>60) navbar.classList.add('scrolled');
+  else navbar.classList.remove('scrolled');
+},{ passive:true });
+
+// Hamburger Menu Toggle
+const menuToggle = document.querySelector('.menu-toggle');
+const navActions = document.querySelector('.nav-actions');
+
+menuToggle.addEventListener('click', () => {
+  menuToggle.classList.toggle('active');
+  navActions.classList.toggle('active');
+});
+
+// Close mobile menu when a link is clicked
+document.querySelectorAll('.nav-links a, .nav-cta').forEach(link => {
+  link.addEventListener('click', () => {
+    menuToggle.classList.remove('active');
+    navActions.classList.remove('active');
+  });
+});
+
+// Scroll reveal
+const reveals=document.querySelectorAll('.reveal');
+const io=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('visible');
+      // stagger rule-list items
+      const items=e.target.querySelectorAll('.rule-list li');
+      items.forEach((li,i)=>{
+        setTimeout(()=>li.classList.add('visible'),i*90);
+      });
+    }
+  });
+},{threshold:0.12});
+reveals.forEach(r=>io.observe(r));
+</script>
 </body>
 </html>
