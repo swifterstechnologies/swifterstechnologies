@@ -1,1010 +1,628 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>River by Swifters Technologies</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
-<style>
-:root{
-  /* Base Colors */
-  --cream: #faf5ee;
-  --cream2: #f3ebe0;
-  --cream3: #ede3d4;
-  --red: #c0392b;
-  --red-deep: #7b1a10;
-  --red-soft: rgba(192,57,43,.12);
-  --charcoal: #1a1008;
-  --charcoal2: #3b2010;
-  --muted: #9a6a55;
-  
-  /* Material Expressive & Liquid Glass Variables */
-  --glass-bg: rgba(255, 255, 255, 0.5);
-  --glass-blur: blur(24px) saturate(180%);
-  --glass-border: 1px solid rgba(255, 255, 255, 0.7);
-  --glass-shadow: 0 8px 32px rgba(123, 26, 16, 0.06), inset 0 0 0 1px rgba(255, 255, 255, 0.4);
-  --shadow-hover: 0 16px 48px rgba(123, 26, 16, 0.12), inset 0 0 0 1px rgba(255, 255, 255, 0.6);
-  
-  --font-head: 'Sora', sans-serif;
-  --font-body: 'Inter', sans-serif;
-  --nav-h: 72px;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swifters River | The First Self-Driving Hospital ERP</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-behavior:smooth;font-size:16px;}
+    <style>
+        :root {
+            /* Brand Colors */
+            --brand-red: #8B0000;      
+            --brand-red-light: #e8463a;
+            --ocean-dark: #0f172a;     
+            --ocean-muted: #475569;    
+            --ocean-accent: #0ea5e9;   
+            
+            /* Glassmorphism */
+            --glass-bg: rgba(255, 255, 255, 0.55);
+            --glass-bg-solid: rgba(255, 255, 255, 0.85); 
+            --glass-border: rgba(255, 255, 255, 0.8);
+            
+            /* Shadows */
+            --shadow-glass: 0 8px 32px rgba(15, 23, 42, 0.04);
+            --shadow-pop: 0 40px 80px rgba(15, 23, 42, 0.12), 0 10px 20px rgba(15, 23, 42, 0.04);
+            
+            /* Animation */
+            --ease-apple: cubic-bezier(0.16, 1, 0.3, 1);
+        }
 
-body{
-  font-family:var(--font-body);
-  /* Added a subtle gradient to make the frosted glass pop */
-  background: radial-gradient(circle at 15% 0%, #ffffff 0%, var(--cream) 40%, var(--cream2) 100%);
-  color:var(--charcoal);
-  -webkit-font-smoothing:antialiased;
-  overflow-x:hidden;
-}
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+            font-weight: 300;
+            color: var(--ocean-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            background-color: #f8fafc;
+        }
 
-/* ── Flowing background lines (Now sits behind the glass) ── */
-.flow-bg{
-  position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;
-}
-.flow-bg svg{width:100%;height:100%;opacity:.15;}
-.flow-line{
-  stroke:var(--red);stroke-width:1.2;fill:none;
-  stroke-dasharray:12 6;
-  animation:flowDown 18s linear infinite;
-}
-.flow-line:nth-child(2){animation-delay:-6s;opacity:.6;}
-.flow-line:nth-child(3){animation-delay:-12s;opacity:.4;}
-@keyframes flowDown{
-  from{stroke-dashoffset:0;}
-  to{stroke-dashoffset:-120;}
-}
+        /* --- ENVIRONMENTAL BACKGROUNDS --- */
+        .bg-waterfall {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -3;
+            background: linear-gradient(180deg, #f0f9ff 0%, #e0f2fe 40%, #bae6fd 60%, #f0f9ff 100%);
+            background-size: 100% 200%; animation: flowDown 12s linear infinite;
+        }
+        @keyframes flowDown { 0% { background-position: 0% 0%; } 100% { background-position: 0% 200%; } }
 
-/* ── Navbar (Liquid Glass) ── */
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:100;
-  height:var(--nav-h);
-  background: var(--glass-bg);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  border-bottom: var(--glass-border);
-  transition:height .3s ease,box-shadow .3s ease, background .3s ease;
-}
-nav.scrolled{
-  height:60px;
-  background: rgba(255, 255, 255, 0.7);
-  box-shadow: 0 4px 24px rgba(123,26,16,.06);
-}
-.nav-inner{
-  max-width:1100px;margin:0 auto;
-  padding:0 32px;
-  height:100%;
-  display:flex;align-items:center;justify-content:space-between;
-  position:relative;z-index:2; 
-}
-.nav-logo{
-  display:flex;align-items:center;gap:12px;text-decoration:none;
-  z-index: 101;
-}
-.nav-logo img{
-  width:40px;height:40px;border-radius:12px;
-  object-fit:cover;
-  box-shadow:0 4px 12px rgba(192,57,43,.15);
-}
-.nav-logo-text{
-  font-family:var(--font-head);
-  font-size:17px;font-weight:700;
-  color:var(--red-deep);
-  letter-spacing:.2px;
-}
-.nav-logo-sub{
-  font-size:9.5px;font-weight:600;
-  color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;
-  display:block;line-height:1;margin-top:2px;
-}
+        .bg-river {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2;
+            background: linear-gradient(90deg, #f0f9ff 0%, #e0f2fe 40%, #bae6fd 60%, #f0f9ff 100%);
+            background-size: 200% 100%; animation: flowRight 15s linear infinite; opacity: 0;
+        }
+        @keyframes flowRight { 0% { background-position: 100% 0%; } 100% { background-position: -100% 0%; } }
 
-/* Wrapper for Links + CTA */
-.nav-actions {
-  display: flex;
-  align-items: center;
-  gap: 36px;
-}
+        /* The Deep Ocean Finale Background */
+        .bg-ocean {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1;
+            background: radial-gradient(circle at center, #0f172a 0%, #020617 100%);
+            opacity: 0; pointer-events: none;
+        }
 
-.nav-links{
-  display:flex;gap:36px;list-style:none;
-}
-.nav-links a{
-  font-size:14px;font-weight:600;color:var(--charcoal);
-  text-decoration:none;letter-spacing:.2px;
-  transition:color .2s;
-  position:relative;
-}
-.nav-links a::after{
-  content:'';position:absolute;bottom:-4px;left:0;right:0;height:2px;
-  background:var(--red);border-radius:2px;
-  transform:scaleX(0);transition:transform .25s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.nav-links a:hover{color:var(--red);}
-.nav-links a:hover::after{transform:scaleX(1);}
-.nav-cta{
-  background:var(--red);color:#fff;
-  font-family:var(--font-body);font-size:14px;font-weight:600;
-  padding:12px 26px;border-radius:100px;border:none;cursor:pointer;
-  transition:all .25s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow:0 4px 12px rgba(192,57,43,.25);
-  text-decoration:none;
-}
-.nav-cta:hover{
-  background:var(--red-deep);
-  transform:translateY(-2px);
-  box-shadow:0 8px 24px rgba(192,57,43,.35);
-}
+        /* Theatrical Dim Overlay for Bento Box */
+        .bg-dimmer {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1;
+            background: rgba(15, 23, 42, 0.4); opacity: 0; pointer-events: none;
+        }
 
-/* Hamburger Button */
-.menu-toggle {
-  display: none;
-  flex-direction: column;
-  justify-content: center;
-  gap: 6px;
-  width: 40px;
-  height: 40px;
-  background: var(--glass-bg);
-  border: var(--glass-border);
-  border-radius: 12px;
-  cursor: pointer;
-  z-index: 101;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-}
-.menu-toggle span {
-  display: block;
-  width: 20px;
-  height: 2px;
-  background-color: var(--charcoal);
-  border-radius: 2px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  margin: 0 auto;
-}
+        /* Typography */
+        h1, h2, h3, h4 { font-weight: 400; letter-spacing: -0.04em; line-height: 1.1; color: var(--ocean-dark); }
+        h1 { font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 500; }
+        h2 { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 400; }
+        p { font-size: 1.2rem; color: var(--ocean-muted); margin-bottom: 1rem; font-weight: 300; }
+        .brand-red { color: var(--brand-red); font-weight: 500; }
 
-/* Wave below nav */
-.nav-wave{
-  position:absolute;bottom:-18px;left:0;right:0;height:20px;overflow:hidden;
-  pointer-events:none;
-  z-index:1;
-}
-.nav-wave svg{
-  width:200%;height:100%;
-  animation:waveSlide 8s linear infinite;
-}
-nav.scrolled .nav-wave svg{animation-duration:12s;}
-@keyframes waveSlide{
-  from{transform:translateX(0);}
-  to{transform:translateX(-50%);}
-}
+        .label {
+            display: inline-block; font-size: 0.85rem; font-weight: 600; text-transform: uppercase;
+            letter-spacing: 0.15em; color: var(--ocean-dark); margin-bottom: 1.5rem; padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.7); border: 1px solid var(--glass-border);
+            backdrop-filter: blur(12px); border-radius: 100px;
+        }
 
-/* ── Sections base ── */
-section{position:relative;z-index:1;}
+        .glass-panel {
+            background: var(--glass-bg); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+            border: 1px solid var(--glass-border); box-shadow: var(--shadow-glass); border-radius: 24px;
+        }
 
-/* ── HERO ── */
-#hero{
-  min-height: 100vh;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  text-align:center;
-  /* Fixed padding: Use flex/margin to handle vertical spacing naturally */
-  padding: calc(var(--nav-h) + 60px) 24px 60px;
-}
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        .section { padding: 140px 0; position: relative; z-index: 2; }
 
-/* Glass Pill Badge */
-.hero-badge{
-  display:inline-flex;align-items:center;gap:8px;
-  background: var(--glass-bg);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  border: var(--glass-border);
-  box-shadow: var(--glass-shadow);
-  color:var(--red);font-size:11px;font-weight:700;
-  letter-spacing:1.5px;text-transform:uppercase;
-  padding:8px 20px;border-radius:100px;
-  margin-bottom:40px;
-  animation:fadeUp .7s .1s ease both;
-}
-.badge-dot{width:6px;height:6px;border-radius:50%;background:var(--red);animation:pulse 2s infinite;}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.3;transform:scale(.7);}}
+        /* Buttons */
+        .btn {
+            display: inline-flex; align-items: center; justify-content: center; padding: 16px 32px;
+            border-radius: 100px; font-size: 1.125rem; font-weight: 500; text-decoration: none;
+            transition: all 0.4s var(--ease-apple); cursor: pointer; border: 1px solid transparent;
+        }
+        .btn-primary { background-color: var(--brand-red); color: white; box-shadow: 0 8px 24px rgba(139, 0, 0, 0.2); }
+        .btn-primary:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 16px 32px rgba(139, 0, 0, 0.3); background-color: #600000; }
+        .btn-outline { background: rgba(255, 255, 255, 0.5); border-color: var(--glass-border); color: var(--ocean-dark); }
+        .btn-outline:hover { background: rgba(255, 255, 255, 0.8); transform: translateY(-2px) scale(1.02); }
 
-.hero-logo-wrap{
-  margin-bottom:32px;
-  animation:fadeUp .7s .0s ease both;
-}
-.hero-logo-wrap img{
-  width:100px;height:100px;border-radius:28px; /* Material 3 curve */
-  object-fit:cover;
-  box-shadow:0 12px 40px rgba(192,57,43,.15);
-  border: 4px solid rgba(255,255,255,0.8);
-}
-.hero-company{
-  font-family:var(--font-head);
-  font-size:14px;font-weight:700;
-  letter-spacing:3px;text-transform:uppercase;
-  color:var(--muted);margin-bottom:12px;
-  animation:fadeUp .7s .15s ease both;
-}
-.hero-title{
-  font-family:var(--font-head);
-  font-size:clamp(48px,11vw,130px);
-  font-weight:800;line-height:.95;
-  letter-spacing:-3px;
-  color:var(--red-deep);
-  margin-bottom:24px;
-  animation:fadeUp .8s .2s ease both;
-}
-.hero-tagline{
-  font-family:var(--font-head);
-  font-size:clamp(18px,2.5vw,24px);
-  font-weight:600;line-height:1.35;
-  color:var(--charcoal);
-  max-width:600px;margin:0 auto 16px;
-  animation:fadeUp .7s .3s ease both;
-}
-.hero-sub{
-  font-size:clamp(15px,1.6vw,17px);
-  font-weight:400;line-height:1.7;
-  color:var(--muted);
-  max-width:520px;margin:0 auto 48px;
-  animation:fadeUp .7s .38s ease both;
-}
+        /* Nav */
+        nav { position: fixed; top: 0; width: 100%; z-index: 1000; background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(24px); border-bottom: 1px solid rgba(255, 255, 255, 0.4); transition: padding 0.4s ease, background 0.4s ease; padding: 20px 0; }
+        nav.scrolled { padding: 12px 0; background: rgba(255, 255, 255, 0.8); border-bottom: 1px solid rgba(255, 255, 255, 0.8); box-shadow: var(--shadow-glass);}
+        .nav-container { display: flex; justify-content: space-between; align-items: center; }
+        .logo { display: flex; align-items: center; gap: 12px; font-weight: 600; font-size: 1.4rem; letter-spacing: 0.05em; color: var(--brand-red); text-decoration: none; text-transform: uppercase;}
+        .logo svg { width: 28px; height: 28px; fill: var(--brand-red); transform: rotate(45deg); }
+        .nav-links { display: flex; gap: 40px; background: rgba(255, 255, 255, 0.6); padding: 12px 32px; border-radius: 100px; border: 1px solid var(--glass-border); }
+        .nav-links a { text-decoration: none; color: var(--ocean-muted); font-weight: 500; font-size: 0.95rem; transition: color 0.3s ease; }
+        .nav-links a:hover { color: var(--ocean-dark); }
 
-/* Fixed Hero Actions Layout */
-.hero-actions{
-  display:flex;gap:16px;justify-content:center;
-  animation:fadeUp .7s .46s ease both;
-  width: 100%;
-  max-width: 400px;
-}
+        /* Standard Reveal Animations */
+        .framer-reveal { opacity: 0; transform: translateY(30px); transition: opacity 1s var(--ease-apple), transform 1s var(--ease-apple); }
+        .framer-reveal.is-visible { opacity: 1; transform: translateY(0); }
+        .delay-1 { transition-delay: 0.1s; } .delay-2 { transition-delay: 0.2s; } .delay-3 { transition-delay: 0.3s; }
 
-.btn-primary{
-  background:var(--red);color:#fff;
-  font-family:var(--font-body);font-size:15px;font-weight:600;
-  padding:16px 36px;border-radius:100px;border:none;cursor:pointer;
-  box-shadow:0 8px 24px rgba(192,57,43,.25);
-  transition:all .3s cubic-bezier(0.4, 0, 0.2, 1);text-decoration:none;
-  display:flex; justify-content:center; align-items:center;
-  flex: 1;
-}
-.btn-primary:hover{background:var(--red-deep);transform:translateY(-3px);box-shadow:0 12px 32px rgba(192,57,43,.35);}
+        /* Hero */
+        .hero { padding: 220px 0 60px; text-align: center; position: relative; }
+        .hero h1 { max-width: 1000px; margin: 0 auto 24px; line-height: 1.15; }
+        .hero p.subtext { font-size: 1.4rem; max-width: 800px; margin: 0 auto 48px; }
+        .hero-btns { display: flex; gap: 16px; justify-content: center; margin-bottom: 60px; }
 
-.btn-ghost{
-  background: var(--glass-bg);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  color:var(--red-deep);
-  font-family:var(--font-body);font-size:15px;font-weight:600;
-  padding:16px 36px;border-radius:100px;
-  border: 1px solid rgba(192,57,43,.2);
-  cursor:pointer;transition:all .3s cubic-bezier(0.4, 0, 0.2, 1);text-decoration:none;
-  display:flex; justify-content:center; align-items:center;
-  flex: 1;
-}
-.btn-ghost:hover{
-  border-color:var(--red);
-  background: rgba(255,255,255,0.8);
-  transform:translateY(-3px);
-  box-shadow: 0 8px 24px rgba(123, 26, 16, 0.08);
-}
+        /* THE POP-OUT DASHBOARD */
+        .hero-perspective-container { position: relative; max-width: 1000px; margin: 0 auto; perspective: 1500px; z-index: 10; }
+        .dashboard-wrapper { transform-style: preserve-3d; transform: rotateX(12deg) scale(0.9); box-shadow: var(--shadow-pop); border-radius: 24px; background: rgba(255, 255, 255, 0.8); border: 1px solid rgba(255, 255, 255, 1); backdrop-filter: blur(24px); }
+        .dashboard-mockup { display: flex; height: 540px; overflow: hidden; text-align: left; position: relative; border-radius: 24px;}
+        .mockup-header-bar { position: absolute; top: 0; width: 100%; height: 36px; background: rgba(255, 255, 255, 0.6); border-bottom: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: space-between; padding: 0 16px; z-index: 10; }
+        .mac-dots { display: flex; gap: 8px; } .mac-dot { width: 12px; height: 12px; border-radius: 50%; } .mac-dot:nth-child(1) { background: #ff5f56; } .mac-dot:nth-child(2) { background: #ffbd2e; } .mac-dot:nth-child(3) { background: #27c93f; }
+        
+        .mockup-sidebar { width: 240px; background: rgba(255, 255, 255, 0.4); border-right: 1px solid var(--glass-border); padding: 64px 16px 24px; display: flex; flex-direction: column; gap: 8px; }
+        .mockup-nav-item { display: flex; align-items: center; gap: 12px; padding: 10px 16px; border-radius: 8px; font-size: 0.9rem; color: var(--ocean-muted); }
+        .mockup-nav-item svg { width: 18px; height: 18px; fill: currentColor; }
+        .mockup-nav-item.active { background: #ffffff; color: var(--ocean-accent); font-weight: 500; box-shadow: 0 2px 8px rgba(0,0,0,0.02);}
+        
+        .mockup-main { flex: 1; padding: 64px 40px 40px; display: flex; flex-direction: column; gap: 24px; background: rgba(255,255,255,0.2);}
+        .mockup-header-text h3 { font-size: 1.5rem; margin-bottom: 4px; font-weight: 500;}
+        .mockup-header-text p { font-size: 0.9rem; margin: 0; }
+        .mockup-cards { display: flex; gap: 20px; }
+        .mockup-card { flex: 1; background: #ffffff; border: 1px solid var(--glass-border); border-radius: 16px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.02);}
+        .mockup-card-label { font-size: 0.8rem; color: var(--ocean-muted); text-transform: uppercase; margin-bottom: 8px; font-weight: 600;}
+        .mockup-card-value { font-size: 1.8rem; color: var(--ocean-dark); line-height: 1;}
+        .mockup-table-container { flex: 1; background: #ffffff; border: 1px solid var(--glass-border); border-radius: 16px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.02);}
+        .mockup-table { width: 100%; border-collapse: collapse; text-align: left; }
+        .mockup-table th { background: #f8fafc; padding: 12px 20px; font-size: 0.75rem; color: var(--ocean-muted); text-transform: uppercase; border-bottom: 1px solid rgba(0,0,0,0.05); font-weight: 600;}
+        .mockup-table td { padding: 16px 20px; border-bottom: 1px solid rgba(0,0,0,0.03); font-size: 0.9rem; }
+        .hf-badge { display: inline-flex; padding: 4px 10px; border-radius: 100px; font-size: 0.75rem; font-weight: 500; background: #e0f2fe; color: var(--ocean-accent);}
 
-/* Scroll hint - Put back into relative document flow to prevent overlapping */
-.scroll-hint{
-  display:flex;flex-direction:column;align-items:center;gap:8px;
-  animation:fadeUp .7s .7s ease both;
-  margin-top: auto; /* Pushes it to the bottom safely */
-  padding-top: 60px; 
-}
-.scroll-hint span{font-size:11px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);}
-.scroll-arrow{
-  width:24px;height:36px;border:1.5px solid rgba(192,57,43,.3);border-radius:100px;
-  position:relative;
-  background: var(--glass-bg);
-  backdrop-filter: var(--glass-blur);
-}
-.scroll-arrow::after{
-  content:'';position:absolute;top:6px;left:50%;transform:translateX(-50%);
-  width:4px;height:8px;border-radius:4px;background:var(--red);
-  animation:scrollBob 1.6s ease-in-out infinite;
-}
-@keyframes scrollBob{0%,100%{top:6px;opacity:1;}50%{top:16px;opacity:.3;}}
+        /* Problem Section */
+        .problem-section { text-align: center; padding-top: 200px; z-index: 1;}
+        .problem-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 64px; }
+        .problem-card { padding: 48px 32px; transition: transform 0.5s var(--ease-apple); text-align: left; color: var(--ocean-dark); }
+        .problem-card p { color: var(--ocean-muted); }
+        .problem-card:hover { transform: translateY(-8px); }
+        .problem-stat { font-size: 3.5rem; font-weight: 300; margin-bottom: 16px; line-height: 1; letter-spacing: -0.04em; }
+        .problem-title { font-size: 1.25rem; font-weight: 500; margin-bottom: 16px; }
 
-/* ── Section divider ── */
-.river-divider{
-  display:flex;align-items:center;justify-content:center;
-  padding:0 24px;margin:0 auto;
-  max-width:800px;
-  position:relative;z-index:1;
-}
-.river-divider::before,.river-divider::after{
-  content:'';flex:1;height:1px;
-  background:linear-gradient(to right,transparent,rgba(192,57,43,.2),transparent);
-}
-.river-drop{
-  width:8px;height:8px;border-radius:50%;
-  background:var(--red);opacity:.35;
-  margin:0 16px;
-}
+        /* THEATRICAL "BENTO BOX" REVEAL */
+        .bento-section { padding: 160px 0; }
+        .theatrical-header { text-align: center; margin-bottom: 80px; }
+        .theatrical-header .label { opacity: 0; } /* Controlled by GSAP */
+        .steve-jobs-text span { display: block; opacity: 0; } /* Controlled by GSAP */
 
-/* ── Shared Headings ── */
-.section-label{
-  font-size:12px;font-weight:700;letter-spacing:2.5px;
-  text-transform:uppercase;color:var(--red);
-  margin-bottom:16px;
-  display: inline-block;
-  background: var(--red-soft);
-  padding: 6px 16px;
-  border-radius: 100px;
-}
+        .bento-grid { display: grid; grid-template-columns: 1.8fr 1fr; grid-template-rows: 400px 400px; gap: 24px; }
+        .bento-card {
+            background: rgba(255, 255, 255, 0.75); backdrop-filter: blur(40px); border: 1px solid rgba(255, 255, 255, 0.9);
+            border-radius: 32px; padding: 48px; display: flex; flex-direction: column; justify-content: space-between;
+            position: relative; overflow: hidden; box-shadow: var(--shadow-glass); opacity: 0; /* Controlled by GSAP */
+        }
+        .bento-card:nth-child(3) { grid-column: 1 / 2; grid-row: 2 / 3; }
+        .bento-card:nth-child(4) { grid-column: 2 / 3; grid-row: 2 / 3; }
+        
+        /* Mouse Glare */
+        .bento-card::before {
+            content: ''; position: absolute; top: var(--y, 50%); left: var(--x, 50%);
+            width: 800px; height: 800px; background: radial-gradient(circle closest-side, rgba(255,255,255,0.9), transparent);
+            transform: translate(-50%, -50%); opacity: 0; transition: opacity 0.3s; pointer-events: none; z-index: 0;
+        }
+        .bento-card:hover::before { opacity: 0.6; }
+        .bento-content { position: relative; z-index: 1; }
+        .bento-visual { position: relative; z-index: 1; margin-top: 24px; height: 100%; display: flex; align-items: center; justify-content: center; }
+        .bento-content h3 { font-size: 1.8rem; font-weight: 600; margin-bottom: 12px; }
+        .bento-content p { font-size: 1.05rem; color: var(--ocean-muted); line-height: 1.5; margin: 0; }
 
-/* ── PROBLEM ── */
-#problem{padding:120px 24px;}
-.problem-inner{max-width:1100px;margin:0 auto;}
-.problem-heading{
-  font-family:var(--font-head);
-  font-size:clamp(32px,4vw,48px);font-weight:800;
-  line-height:1.15;letter-spacing:-1.5px;
-  color:var(--charcoal);margin-bottom:16px;
-}
-.problem-heading span{color:var(--red);}
-.problem-sub{
-  font-size:16px;color:var(--muted);
-  max-width:540px;line-height:1.7;margin-bottom:64px;
-}
-.problem-cards{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:24px;
-}
+        /* MICRO-UI ANIMATIONS inside Bento */
+        .mu-invoice { background: white; padding: 20px; border-radius: 12px; width: 80%; box-shadow: 0 10px 30px rgba(0,0,0,0.05); position: relative; overflow: hidden;}
+        .mu-line { height: 8px; background: #e2e8f0; border-radius: 4px; margin-bottom: 12px; width: 100%; }
+        .mu-scanner { position: absolute; top: -10px; left: 0; width: 100%; height: 2px; background: var(--ocean-accent); box-shadow: 0 0 15px 3px var(--ocean-accent); animation: scan 3s infinite ease-in-out; }
+        @keyframes scan { 0%, 100% { top: 0; opacity: 0;} 10%, 90% {opacity: 1;} 50% { top: 100%; } }
+        .mu-list { display: flex; flex-direction: column; gap: 8px; width: 100%; }
+        .mu-item { background: white; padding: 12px 16px; border-radius: 8px; font-family: monospace; font-size: 0.85rem; display: flex; justify-content: space-between; border: 1px solid var(--glass-border); color: var(--ocean-dark);}
+        .mu-item.alert { border-color: var(--brand-red); color: var(--brand-red); background: #fee2e2; animation: pulse-alert 2s infinite; position: relative;}
+        @keyframes pulse-alert { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.02); } }
+        .mu-split { display: flex; gap: 16px; width: 100%; align-items: center;}
+        .mu-chat { flex: 1; background: #f1f5f9; padding: 16px; border-radius: 16px 16px 16px 4px; font-size: 1.5rem; font-weight: bold; color: var(--ocean-muted); text-align: center; animation: typeDot 1.5s infinite;}
+        .mu-bill { flex: 1; background: white; padding: 16px; border-radius: 12px; border: 1px solid var(--glass-border); box-shadow: 0 10px 20px rgba(0,0,0,0.05); color: var(--ocean-dark);}
+        .mu-bill-row { display: flex; justify-content: space-between; font-size: 0.75rem; font-weight: 600; padding-bottom: 8px; margin-bottom: 8px;}
+        @keyframes typeDot { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+        .mu-core { width: 80px; height: 80px; background: linear-gradient(135deg, var(--ocean-accent), #38bdf8); border-radius: 50%; box-shadow: 0 0 40px rgba(14, 165, 233, 0.4); animation: breath 4s infinite alternate; display: flex; align-items: center; justify-content: center; }
+        .mu-orbit { position: absolute; width: 160px; height: 160px; border: 1px dashed rgba(14, 165, 233, 0.3); border-radius: 50%; animation: spin 10s linear infinite; }
+        .mu-dot { width: 10px; height: 10px; background: var(--ocean-accent); border-radius: 50%; position: absolute; top: -5px; left: 75px; }
+        @keyframes breath { 0% { transform: scale(0.9); box-shadow: 0 0 20px rgba(14, 165, 233, 0.2); } 100% { transform: scale(1.1); box-shadow: 0 0 60px rgba(14, 165, 233, 0.6); } }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
 
-/* Material 3 Glass Cards */
-.prob-card{
-  background: var(--glass-bg);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  border: var(--glass-border);
-  border-radius: 28px; /* Material 3 large curve */
-  padding:40px 32px;
-  box-shadow: var(--glass-shadow);
-  transition:all .4s cubic-bezier(0.4, 0, 0.2, 1);
-  position:relative;overflow:hidden;
-}
-.prob-card::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:4px;
-  background:linear-gradient(90deg,var(--red-deep),var(--red));
-  transform:scaleX(0);transform-origin:left;
-  transition:transform .4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.prob-card:hover{
-  transform:translateY(-8px);
-  box-shadow: var(--shadow-hover);
-  background: rgba(255,255,255,0.7);
-}
-.prob-card:hover::before{transform:scaleX(1);}
-.prob-num{
-  font-family:var(--font-head);
-  font-size:48px;font-weight:800;
-  color:var(--red);letter-spacing:-2px;
-  margin-bottom:12px;line-height:1;
-}
-.prob-title{
-  font-family:var(--font-head);
-  font-size:17px;font-weight:700;
-  color:var(--charcoal);margin-bottom:10px;
-}
-.prob-desc{font-size:14.5px;color:var(--muted);line-height:1.65;}
+        /* 90/10 RULE GRID */
+        .rule-section { text-align: center; padding-bottom: 100px; }
+        .comparison-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 60px; max-width: 1000px; margin-left: auto; margin-right: auto; }
+        .compare-card { border-radius: 24px; padding: 40px; text-align: left; }
+        .compare-old { background: #e2e8f0; border: 1px solid #cbd5e1; box-shadow: inset 0 4px 20px rgba(0,0,0,0.03); }
+        .old-ui-header { font-family: 'Times New Roman', Times, serif; font-size: 1.1rem; font-weight: bold; color: #475569; border-bottom: 2px solid #cbd5e1; padding-bottom: 12px; margin-bottom: 24px; display: flex; justify-content: space-between;}
+        .old-ui-row { background: white; padding: 16px; border: 1px solid #cbd5e1; font-family: monospace; font-size: 0.85rem; color: #334155; display: flex; justify-content: space-between; margin-bottom: 12px; border-radius: 8px;}
+        .old-ui-error { color: #dc2626; font-weight: bold; background: #fee2e2; padding: 4px 8px; border: 1px solid #fca5a5; border-radius: 4px;}
+        .compare-new { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(24px); border: 1px solid var(--glass-border); box-shadow: var(--shadow-glass); position: relative; overflow: hidden; }
+        .new-ui-header { font-size: 1.2rem; font-weight: 500; color: var(--ocean-dark); border-bottom: 1px solid var(--glass-border); padding-bottom: 12px; margin-bottom: 24px; display: flex; justify-content: space-between; }
+        .new-ui-row { background: #ffffff; padding: 16px; border-radius: 12px; border: 1px solid var(--glass-highlight); display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 0.95rem; color: var(--ocean-dark);}
+        .compare-effort { margin-top: 24px; font-size: 0.95rem; font-weight: 500; text-align: center; padding-top: 24px; border-top: 1px solid rgba(0,0,0,0.05);}
 
-/* ── PILLARS ── */
-#pillars{padding:120px 24px;}
-.pillars-inner{max-width:1100px;margin:0 auto;}
-.pillars-grid{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:64px;
-}
+        /* --- NEW OCEAN FINALE --- */
+        .ocean-finale {
+            padding: 160px 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            z-index: 5;
+        }
+        
+        .finale-content { max-width: 800px; color: white; }
+        .finale-content h2 { font-size: clamp(3rem, 7vw, 6rem); font-weight: 600; color: white; margin-bottom: 16px; line-height: 1.1;}
+        .finale-content p { font-size: clamp(1.2rem, 3vw, 1.8rem); font-weight: 300; color: #94a3b8; margin-bottom: 48px;}
+        
+        .finale-btns { display: flex; gap: 16px; justify-content: center; }
+        .btn-finale-outline {
+            background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.3); color: white;
+            display: inline-flex; align-items: center; justify-content: center; padding: 16px 32px; border-radius: 100px; font-size: 1.125rem; font-weight: 500; text-decoration: none; transition: all 0.3s;
+        }
+        .btn-finale-outline:hover { background: rgba(255, 255, 255, 0.2); border-color: white;}
 
-.pillar-card{
-  background: var(--glass-bg);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  border: var(--glass-border);
-  border-radius: 28px;
-  padding:48px 36px;
-  box-shadow: var(--glass-shadow);
-  transition:all .4s cubic-bezier(0.4, 0, 0.2, 1);
-  position:relative;overflow:hidden;
-  cursor:default;
-}
-.pillar-card::after{
-  content:'';
-  position:absolute;inset:0;
-  background:radial-gradient(circle at 50% 110%,rgba(192,57,43,.06) 0%,transparent 70%);
-  opacity:0;transition:opacity .4s ease;
-  pointer-events:none;
-}
-.pillar-card:hover{
-  transform:translateY(-8px);
-  box-shadow: var(--shadow-hover);
-  background: rgba(255,255,255,0.7);
-}
-.pillar-card:hover::after{opacity:1;}
-.pillar-icon{
-  width:64px;height:64px;border-radius:20px;
-  background:var(--red-soft);
-  color: var(--red);
-  display:flex;align-items:center;justify-content:center;
-  margin-bottom:28px;
-  font-size:28px;
-  box-shadow: inset 0 0 0 1px rgba(192,57,43,.1);
-}
-.pillar-num{
-  font-family:var(--font-head);
-  font-size:12px;font-weight:700;
-  letter-spacing:2px;text-transform:uppercase;
-  color:var(--red);margin-bottom:12px;
-}
-.pillar-title{
-  font-family:var(--font-head);
-  font-size:22px;font-weight:800;
-  color:var(--charcoal);
-  letter-spacing:-.5px;margin-bottom:16px;line-height:1.2;
-}
-.pillar-desc{font-size:15px;color:var(--muted);line-height:1.7;}
-.pillar-tag{
-  display:inline-block;margin-top:24px;
-  background:var(--red-soft);color:var(--red);
-  font-size:12px;font-weight:600;
-  padding:6px 16px;border-radius:100px;
-  border:1px solid rgba(192,57,43,.15);
-  letter-spacing:.5px;
-}
+        /* LIVE VALUE MARQUEE */
+        .marquee-wrapper { width: 100%; overflow: hidden; background: white; padding: 24px 0; border-bottom: 1px solid var(--glass-border); z-index: 10; position: relative;}
+        .marquee-content { display: flex; width: max-content; animation: marquee-scroll 40s linear infinite; }
+        .marquee-item { display: inline-flex; align-items: center; gap: 12px; margin-right: 64px; font-size: 1rem; color: var(--ocean-muted); }
+        .marquee-item svg { width: 20px; height: 20px; fill: var(--brand-red); }
+        @keyframes marquee-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-/* ── 90/10 ── */
-#rule{padding:120px 24px;}
-.rule-inner{
-  max-width:1000px;margin:0 auto;
-  display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start;
-}
-.rule-side-label{
-  font-family:var(--font-head);
-  font-size:clamp(48px,7vw,84px); 
-  font-weight:800;
-  line-height:1;letter-spacing:-3px;margin-bottom:12px;
-}
-.rule-side-label.r90{color:var(--red);}
-.rule-side-label.r10{color:var(--cream3);}
-.r10-wrap .rule-side-label{color:var(--charcoal);}
-.rule-side-subtitle{
-  font-family:var(--font-head);
-  font-size:18px;font-weight:700;
-  color:var(--charcoal2);margin-bottom:32px;
-}
-.rule-list{list-style:none;display:flex;flex-direction:column;gap:16px;}
-.rule-list li{
-  display:flex;align-items:flex-start;gap:16px;
-  font-size:15px;color:var(--charcoal2);line-height:1.6;
-  opacity:0;transform:translateX(-16px);
-  transition:opacity .5s ease,transform .5s ease;
-  background: var(--glass-bg);
-  padding: 12px 20px;
-  border-radius: 16px;
-  border: var(--glass-border);
-}
-.rule-list li.visible{opacity:1;transform:translateX(0);}
-.r10-wrap .rule-list li{transform:translateX(16px);}
-.r10-wrap .rule-list li.visible{transform:translateX(0);}
-.check{
-  width:24px;height:24px;min-width:24px;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  font-size:12px;margin-top:0px;
-}
-.check-r{background:rgba(192,57,43,.12);color:var(--red);}
-.check-g{background:rgba(40,120,60,.12);color:#2c7a3e;}
+        /* PRECISE IMAGE MATCH FOOTER */
+        footer { background: #f8fafc; padding: 40px 0; position: relative; z-index: 10; }
+        .footer-content { display: flex; justify-content: space-between; align-items: center; padding: 0 40px; font-family: 'Inter', sans-serif;}
+        .footer-logo { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 1.1rem; color: var(--brand-red); letter-spacing: 0.05em;}
+        .footer-logo svg { width: 24px; height: 24px; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; fill: none; }
+        .footer-center { color: var(--ocean-muted); font-size: 0.9rem; }
+        .footer-right { color: var(--ocean-muted); font-size: 0.9rem; }
 
-/* ── WORKFLOWS ── */
-#workflows{padding:120px 24px;}
-.workflows-inner{max-width:1000px;margin:0 auto;}
-.wf-panels{display:flex;flex-direction:column;gap:80px;margin-top:64px;}
-.wf-panel{
-  display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;
-}
-.wf-panel.reverse{direction:rtl;}
-.wf-panel.reverse > *{direction:ltr;}
-.wf-visual{
-  background: var(--glass-bg);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  border: var(--glass-border);
-  border-radius:32px; /* Extra round */
-  padding:48px;
-  box-shadow: var(--glass-shadow);
-  min-height:240px;
-  display:flex;flex-direction:column;justify-content:center;
-  position:relative;overflow:hidden;
-}
-.wf-visual::before{
-  content:'';
-  position:absolute;top:-60px;right:-60px;
-  width:180px;height:180px;border-radius:50%;
-  background:radial-gradient(circle,rgba(192,57,43,.06) 0%,transparent 70%);
-}
-.wf-step-num{
-  font-family:var(--font-head);
-  font-size:80px;font-weight:800;
-  color:rgba(192,57,43,.05);
-  letter-spacing:-4px;line-height:1;
-  position:absolute;bottom:16px;right:24px;
-}
-.wf-icon-big{font-size:42px;margin-bottom:20px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));}
-.wf-visual-title{
-  font-family:var(--font-head);
-  font-size:20px;font-weight:800;
-  color:var(--charcoal);margin-bottom:10px;
-}
-.wf-visual-stat{
-  font-size:14px;color:var(--muted);line-height:1.6;
-}
-.wf-time{
-  display:inline-flex;align-items:center;gap:8px;margin-top:20px;
-  background:var(--red-soft);border:1px solid rgba(192,57,43,.15);
-  color:var(--red);font-size:13px;font-weight:700;
-  padding:6px 16px;border-radius:100px;
-}
-.wf-num-label{
-  font-size:12px;font-weight:700;letter-spacing:2px;
-  text-transform:uppercase;color:var(--red);margin-bottom:12px;
-}
-.wf-title{
-  font-family:var(--font-head);
-  font-size:clamp(24px,2.5vw,32px);font-weight:800;
-  color:var(--charcoal);letter-spacing:-.5px;
-  margin-bottom:16px;line-height:1.2;
-}
-.wf-body{font-size:15.5px;color:var(--muted);line-height:1.7;margin-bottom:24px;}
-.wf-steps{display:flex;flex-direction:column;gap:14px;}
-.wf-step{
-  display:flex;align-items:flex-start;gap:12px;
-  font-size:14.5px;color:var(--charcoal2);line-height:1.5;
-}
-.wf-step-dot{
-  width:22px;height:22px;min-width:22px;border-radius:50%;
-  background:var(--red-soft);border:1.5px solid rgba(192,57,43,.2);
-  display:flex;align-items:center;justify-content:center;
-  font-size:10px;font-weight:800;color:var(--red);margin-top:0px;
-}
+        /* --- RESPONSIVE DESIGN FOR ALL DEVICES --- */
+        @media (max-width: 1024px) {
+            .dashboard-wrapper { transform: rotateX(0deg) scale(1); } /* Disable 3D earlier to prevent edge overflow */
+            .hero-perspective-container { perspective: none; }
+            .bento-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+            .bento-card:nth-child(1), .bento-card:nth-child(2), .bento-card:nth-child(3), .bento-card:nth-child(4) { grid-column: 1; grid-row: auto; min-height: auto;}
+            .comparison-grid { grid-template-columns: 1fr; }
+        }
 
-/* ── FOOTER ── */
-footer{
-  background: var(--glass-bg);
-  backdrop-filter: blur(40px);
-  -webkit-backdrop-filter: blur(40px);
-  border-top:1px solid rgba(255,255,255,0.8);
-  padding:64px 32px;
-  text-align:center;
-  position:relative;z-index:1;
-}
-.footer-logo{
-  display:flex;align-items:center;justify-content:center;gap:12px;
-  margin-bottom:20px;
-}
-.footer-logo img{
-  width:40px;height:40px;border-radius:12px;
-  object-fit:cover;
-}
-.footer-name{
-  font-family:var(--font-head);
-  font-size:16px;font-weight:800;
-  color:var(--red-deep);letter-spacing:.5px;
-}
-.footer-tagline{
-  font-size:12px;font-weight:700;color:var(--muted);
-  letter-spacing:2px;text-transform:uppercase;
-  margin-bottom:24px;
-}
-.footer-copy{
-  font-size:13px;color:var(--muted);
-  letter-spacing:.3px;
-}
-
-/* ── Scroll reveal ── */
-.reveal{
-  opacity:0;transform:translateY(32px);
-  transition:opacity .7s cubic-bezier(0.4, 0, 0.2, 1),transform .7s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.reveal.visible{opacity:1;transform:translateY(0);}
-
-/* ── Animations ── */
-@keyframes fadeUp{
-  from{opacity:0;transform:translateY(24px);}
-  to{opacity:1;transform:translateY(0);}
-}
-
-/* section headings shared */
-.sec-head-wrap{text-align:center;margin-bottom:24px;}
-.sec-title{
-  font-family:var(--font-head);
-  font-size:clamp(32px,4vw,48px);font-weight:800;
-  letter-spacing:-1.5px;color:var(--charcoal);line-height:1.15;
-}
-.sec-title span{color:var(--red);}
-.sec-body{font-size:16px;color:var(--muted);max-width:500px;margin:16px auto 0;line-height:1.7;}
-
-/* ── Responsive ── */
-@media(max-width:900px){
-  .problem-cards,.pillars-grid{grid-template-columns:1fr 1fr;}
-  .rule-inner{grid-template-columns:1fr; gap:40px;}
-  .wf-panel,.wf-panel.reverse{grid-template-columns:1fr;direction:ltr; gap: 40px;}
-  .r10-wrap .rule-list li { transform: translateX(0); }
-  
-  /* Mobile Top Navbar Override - Glassmorphism Menu */
-  .menu-toggle { display: flex; }
-  
-  /* Hide the subtitle on smaller screens to un-cramp the header */
-  .nav-logo-sub { display: none; }
-  
-  .nav-actions {
-    position: absolute;
-    top: 100%;
-    left: 16px;
-    right: 16px;
-    background: rgba(255, 255, 255, 0.6);
-    backdrop-filter: blur(32px) saturate(200%);
-    -webkit-backdrop-filter: blur(32px) saturate(200%);
-    flex-direction: column;
-    padding: 32px 24px 40px;
-    gap: 32px;
-    border-radius: 28px;
-    box-shadow: 0 24px 64px rgba(123,26,16,.15), inset 0 0 0 1px rgba(255, 255, 255, 0.8);
-    transform: translateY(-20px) scale(0.95);
-    opacity: 0;
-    pointer-events: none;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  
-  .nav-actions.active {
-    opacity: 1;
-    transform: translateY(16px) scale(1);
-    pointer-events: auto;
-  }
-  
-  .nav-links {
-    flex-direction: column;
-    gap: 24px;
-    text-align: center;
-    width: 100%;
-  }
-  
-  .nav-links a {
-    font-size: 16px;
-    display: block;
-    padding: 12px;
-  }
-  
-  .nav-cta {
-    width: 100%;
-    text-align: center;
-    padding: 16px;
-  }
-  
-  /* Hamburger Animation */
-  .menu-toggle.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
-  .menu-toggle.active span:nth-child(2) { opacity: 0; }
-  .menu-toggle.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
-}
-
-@media(max-width:600px){
-  .problem-cards,.pillars-grid{grid-template-columns:1fr;}
-  .hero-title{letter-spacing:-2px;}
-  nav{padding:0;}
-  .nav-inner{padding:0 20px;}
-  
-  /* Stack the buttons on mobile so they don't squash */
-  .hero-actions {
-    flex-direction: column;
-  }
-  
-  #problem, #pillars, #rule, #workflows { padding: 80px 20px; }
-  #hero { padding: calc(var(--nav-h) + 40px) 20px 60px; }
-}
-
-</style>
+        @media (max-width: 768px) {
+            .section { padding: 80px 0; }
+            .hero { padding: 140px 0 40px; }
+            .problem-section { padding-top: 80px; }
+            .bento-section { padding: 80px 0; }
+            
+            h1 { font-size: 2.5rem; }
+            .steve-jobs-text { font-size: 2rem !important; }
+            .steve-jobs-text .line-6 { font-size: 3rem !important; }
+            
+            .nav-links { display: none; }
+            
+            .dashboard-mockup { height: auto; flex-direction: column; border-radius: 16px; }
+            .dashboard-wrapper { border-radius: 16px; }
+            .mockup-sidebar { display: none; }
+            .mockup-main { padding: 64px 20px 20px; }
+            .mockup-cards { flex-direction: column; }
+            .mockup-table-container { overflow-x: auto; }
+            .mockup-table th, .mockup-table td { white-space: nowrap; }
+            
+            .problem-grid { grid-template-columns: 1fr; }
+            
+            .bento-card { padding: 32px 24px; }
+            .bento-content h3 { font-size: 1.5rem; }
+            .mu-invoice { width: 100%; }
+            .mu-split { flex-direction: column; align-items: stretch; gap: 24px;}
+            .mu-split svg { transform: rotate(90deg); margin: 0 auto; }
+            
+            .finale-btns { flex-direction: column; align-items: center; width: 100%; }
+            .finale-btns .btn, .finale-btns .btn-finale-outline { width: 100%; max-width: 300px; text-align: center; }
+            
+            .footer-content { flex-direction: column; gap: 24px; text-align: center; padding: 0 20px; }
+            .marquee-item { font-size: 0.9rem; margin-right: 32px; }
+        }
+        
+        @media (max-width: 480px) {
+            .mac-dots { display: none; } /* Free up header space on tiny screens */
+            .sync-pill { margin: 0 auto; }
+        }
+    </style>
 </head>
 <body>
 
-<div class="flow-bg">
-  <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-    <path class="flow-line" d="M200,0 C220,150 180,300 210,450 C240,600 200,750 220,900"/>
-    <path class="flow-line" d="M720,0 C740,150 700,300 730,450 C760,600 720,750 740,900"/>
-    <path class="flow-line" d="M1200,0 C1220,150 1180,300 1210,450 C1240,600 1200,750 1220,900"/>
-  </svg>
-</div>
+    <div class="bg-waterfall" id="bg-waterfall"></div>
+    <div class="bg-river" id="bg-river"></div>
+    <div class="bg-dimmer" id="bg-dimmer"></div>
+    <div class="bg-ocean" id="bg-ocean"></div>
 
-<nav id="navbar">
-  <div class="nav-inner">
-    <a class="nav-logo" href="#hero">
-      <img src="logo.png" alt="Swifters"/>
-      <div>
-        <span class="nav-logo-text">River</span>
-        <span class="nav-logo-sub">by Swifters Technologies</span>
-      </div>
-    </a>
-    
-    <button class="menu-toggle" aria-label="Toggle Navigation">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
-
-    <div class="nav-actions">
-      <ul class="nav-links">
-        <li><a href="#problem">Problems</a></li>
-        <li><a href="#pillars">Pillars</a></li>
-        <li><a href="#rule">90/10 Rule</a></li>
-        <li><a href="#workflows">Workflows</a></li>
-      </ul>
-      <a class="nav-cta" href="#hero">Request Early Access</a>
-    </div>
-  </div>
-  
-  <div class="nav-wave">
-    <svg viewBox="0 0 1440 20" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M0,10 C120,20 240,0 360,10 C480,20 600,0 720,10 C840,20 960,0 1080,10 C1200,20 1320,0 1440,10 C1440,10 1440,10 1440,20 L0,20 Z" fill="rgba(192,57,43,0.04)"/>
-      <path d="M0,10 C120,20 240,0 360,10 C480,20 600,0 720,10 C840,20 960,0 1080,10 C1200,20 1320,0 1440,10" stroke="rgba(192,57,43,0.1)" stroke-width="1" fill="none"/>
-    </svg>
-  </div>
-</nav>
-
-<section id="hero">
-  <div class="hero-badge"><div class="badge-dot"></div>Coming Soon — Under Development</div>
-  <div class="hero-logo-wrap">
-    <img src="logo.png" alt="Swifters Technologies"/>
-  </div>
-  <div class="hero-company">Swifters Technologies</div>
-  <h1 class="hero-title">River</h1>
-  <p class="hero-tagline">The First Self-Driving Hospital ERP<br>for Indian Healthcare</p>
-  <p class="hero-sub">An Agentic AI workforce that does 90% of the heavy lifting — so your staff only handles the final approval.</p>
-  
-  <div class="hero-actions">
-    <a class="btn-primary" href="#">Request Early Access</a>
-    <a class="btn-ghost" href="#pillars">See How It Works</a>
-  </div>
-  
-  <div class="scroll-hint">
-    <span>Scroll</span>
-    <div class="scroll-arrow"></div>
-  </div>
-</section>
-
-<div class="river-divider"><div class="river-drop"></div></div>
-
-<section id="problem">
-  <div class="problem-inner">
-    <div class="reveal">
-      <div class="section-label">The Problem</div>
-      <h2 class="problem-heading">Indian hospitals lose crores<br><span>every single day.</span></h2>
-      <p class="problem-sub">Legacy ERPs force staff to do 100% of the data work. The result is predictable — and costly.</p>
-    </div>
-    <div class="problem-cards">
-      <div class="prob-card reveal">
-        <div class="prob-num">18–22%</div>
-        <div class="prob-title">Average Claim Denial Rate</div>
-        <div class="prob-desc">Insurance claims rejected due to missing documents, unbilled consumables, and non-compliant discharge summaries.</div>
-      </div>
-      <div class="prob-card reveal" style="transition-delay:.1s">
-        <div class="prob-num">4+ hrs</div>
-        <div class="prob-title">Lost to Manual Invoice Entry</div>
-        <div class="prob-desc">Staff manually key in distributor invoices line by line, with no expiry checks, no price validation, and no audit trail.</div>
-      </div>
-      <div class="prob-card reveal" style="transition-delay:.2s">
-        <div class="prob-num">₹Crores</div>
-        <div class="prob-title">Revenue Leakage Yearly</div>
-        <div class="prob-desc">Unbilled consumables — sutures, gloves, anesthesia — walk out the door every day without appearing on a single invoice.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="river-divider"><div class="river-drop"></div></div>
-
-<section id="pillars">
-  <div class="pillars-inner">
-    <div class="sec-head-wrap reveal">
-      <div class="section-label">The 3-Pillar MVP</div>
-      <h2 class="sec-title">River's Agentic <span>Workforce</span></h2>
-      <p class="sec-body">Three autonomous agents working in parallel — each handling a major pain point end-to-end.</p>
-    </div>
-    <div class="pillars-grid">
-      <div class="pillar-card reveal">
-        <div class="pillar-icon">🏭</div>
-        <div class="pillar-num">Pillar 01</div>
-        <div class="pillar-title">Autonomous Supply Chain</div>
-        <div class="pillar-desc">Drop a crumpled invoice photo. River extracts every line item, maps it against the Master Catalog, flags near-expiry batches, and drafts the complete GRN. You click Approve.</div>
-        <span class="pillar-tag">Zero-UI Inwarding</span>
-      </div>
-      <div class="pillar-card reveal" style="transition-delay:.12s">
-        <div class="pillar-icon">🩺</div>
-        <div class="pillar-num">Pillar 02</div>
-        <div class="pillar-title">Clinical Orchestrator</div>
-        <div class="pillar-desc">Doctors dictate. River listens, routes the prescription to pharmacy, and drafts the bill with GST/HSN codes — all before the patient reaches the counter.</div>
-        <span class="pillar-tag">Voice-to-Pharmacy</span>
-      </div>
-      <div class="pillar-card reveal" style="transition-delay:.24s">
-        <div class="pillar-icon">💰</div>
-        <div class="pillar-num">Pillar 03</div>
-        <div class="pillar-title">Zero-Denial Revenue Auditor</div>
-        <div class="pillar-desc">River cross-references every clinical note against the billing ledger in real time. If a suture is used but not billed, River catches it before the patient leaves.</div>
-        <span class="pillar-tag">Real-time Leakage Guard</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="river-divider"><div class="river-drop"></div></div>
-
-<section id="rule">
-  <div style="max-width:1000px;margin:0 auto;padding:0 0 0 0;">
-    <div class="sec-head-wrap reveal" style="margin-bottom:64px;">
-      <div class="section-label">The Core Philosophy</div>
-      <h2 class="sec-title">The <span>90/10</span> Rule</h2>
-      <p class="sec-body">River is a System of Action — not a System of Record. It does the work. Your staff approves the outcome.</p>
-    </div>
-    <div class="rule-inner">
-      <div class="reveal">
-        <div class="rule-side-label r90">90%</div>
-        <div class="rule-side-subtitle">River handles this.</div>
-        <ul class="rule-list" id="river-list">
-          <li><div class="check check-r">✓</div>Extract & standardise every invoice line item</li>
-          <li><div class="check check-r">✓</div>Cross-check prices vs. contracted rates</li>
-          <li><div class="check check-r">✓</div>Flag expiring batches before shelf entry</li>
-          <li><div class="check check-r">✓</div>Route prescriptions to pharmacy & billing simultaneously</li>
-          <li><div class="check check-r">✓</div>Detect unbilled consumables in real time</li>
-          <li><div class="check check-r">✓</div>Compile NABH-compliant discharge summaries</li>
-          <li><div class="check check-r">✓</div>Auto-map clinical data to insurance packages</li>
-        </ul>
-      </div>
-      <div class="r10-wrap reveal" style="transition-delay:.15s">
-        <div class="rule-side-label" style="color:var(--charcoal)">10%</div>
-        <div class="rule-side-subtitle">Your team approves.</div>
-        <ul class="rule-list" id="human-list">
-          <li><div class="check check-g">✓</div>Review GRN and click Approve & Commit</li>
-          <li><div class="check check-g">✓</div>Doctor signs the clinical note digitally</li>
-          <li><div class="check check-g">✓</div>Confirm medication handover to patient</li>
-          <li><div class="check check-g">✓</div>Approve or reject leakage alert additions</li>
-          <li><div class="check check-g">✓</div>Click Verify & Submit Batch for insurance</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="river-divider"><div class="river-drop"></div></div>
-
-<section id="workflows">
-  <div class="workflows-inner">
-    <div class="sec-head-wrap reveal">
-      <div class="section-label">A Day With River</div>
-      <h2 class="sec-title">Three <span>Stories.</span> One Morning.</h2>
-      <p class="sec-body">Real workflows that play out every single day in Tier-2 and Tier-3 hospitals across India.</p>
-    </div>
-    <div class="wf-panels">
-
-      <div class="wf-panel reveal">
-        <div class="wf-visual">
-          <div class="wf-icon-big">📦</div>
-          <div class="wf-visual-title">Magic Inward & Expiry Catch</div>
-          <div class="wf-visual-stat">150 items processed. 1 batch flagged. 0 manual keystrokes.</div>
-          <div class="wf-time">⏱ 2 minutes total</div>
-          <div class="wf-step-num">01</div>
+    <nav id="navbar">
+        <div class="container nav-container">
+            <a href="#" class="logo">
+                <svg viewBox="0 0 24 24"><path d="M4 20L20 4M20 4H10M20 4V14" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+                SWIFTERS
+            </a>
+            <div class="nav-links">
+                <a href="#problem">Problem</a>
+                <a href="#one-more-thing">Solution</a>
+            </div>
+            <a href="#finale" class="btn btn-primary" style="background-color: var(--brand-red);">Contact Us</a>
         </div>
-        <div class="wf-content">
-          <div class="wf-num-label">Workflow 01</div>
-          <div class="wf-title">The "Magic Inward" & Expiry Catch</div>
-          <div class="wf-body">A distributor drops off a massive monthly shipment with a crumpled 3-page invoice. No typing. No spreadsheets.</div>
-          <div class="wf-steps">
-            <div class="wf-step"><div class="wf-step-dot">1</div>Admin snaps photos of the invoice using River app.</div>
-            <div class="wf-step"><div class="wf-step-dot">2</div>River processes 150 items, maps names, checks prices.</div>
-            <div class="wf-step"><div class="wf-step-dot">3</div>Red warning: "Batch AB123 of Azithromycin expires in 4 months — Policy violation."</div>
-            <div class="wf-step"><div class="wf-step-dot">4</div>River drafts RTV request. Admin clicks Yes. Done.</div>
-          </div>
-        </div>
-      </div>
+    </nav>
 
-      <div class="wf-panel reverse reveal">
-        <div class="wf-visual">
-          <div class="wf-icon-big">🎤</div>
-          <div class="wf-visual-title">Paperless Patient Handoff</div>
-          <div class="wf-visual-stat">Prescription → Bill → Payment. Before the patient walks over.</div>
-          <div class="wf-time">⏱ Seconds</div>
-          <div class="wf-step-num">02</div>
-        </div>
-        <div class="wf-content">
-          <div class="wf-num-label">Workflow 02</div>
-          <div class="wf-title">The Paperless Patient Handoff</div>
-          <div class="wf-body">Doctor finishes a consult and speaks into River. By the time the patient walks to the pharmacy, everything is ready.</div>
-          <div class="wf-steps">
-            <div class="wf-step"><div class="wf-step-dot">1</div>Doctor dictates: "Paracetamol 650mg for 3 days, cough syrup for Selvi."</div>
-            <div class="wf-step"><div class="wf-step-dot">2</div>River checks stock, drafts bill with GST/HSN codes.</div>
-            <div class="wf-step"><div class="wf-step-dot">3</div>Pharmacy admin sees Selvi approach: "That'll be ₹180."</div>
-            <div class="wf-step"><div class="wf-step-dot">4</div>Patient pays via UPI QR on tablet. Leaves in 60 seconds.</div>
-          </div>
-        </div>
-      </div>
+    <section class="hero section">
+        <div class="container">
+            <span class="label framer-reveal">EVERYTHING IS ABOUT TO CHANGE</span>
+            <h1 class="framer-reveal delay-1">Once in a generation, something arrives that makes everything before it look broken.</h1>
+            <p class="subtext framer-reveal delay-2">For decades, you had to manage your hospital's ERP. Today, we are introducing the first hospital ERP that manages itself. We call it <span class="brand-red">River</span>.</p>
+            
+            <div class="hero-btns framer-reveal delay-3">
+                <a href="#finale" class="btn btn-primary" style="background-color: var(--brand-red);">Contact Us</a>
+                <a href="#one-more-thing" class="btn btn-outline">See How It Works</a>
+            </div>
 
-      <div class="wf-panel reveal">
-        <div class="wf-visual">
-          <div class="wf-icon-big">📋</div>
-          <div class="wf-visual-title">End-of-Day RCM Clearance</div>
-          <div class="wf-visual-stat">Zero missing documents. Zero claim delays. One click to submit.</div>
-          <div class="wf-time">⏱ 8 PM. Done in minutes.</div>
-          <div class="wf-step-num">03</div>
+            <div class="hero-perspective-container framer-reveal delay-3">
+                <div class="dashboard-wrapper" id="pop-out-dashboard">
+                    <div class="dashboard-mockup">
+                        <div class="mockup-header-bar">
+                            <div class="mac-dots"><div class="mac-dot"></div><div class="mac-dot"></div><div class="mac-dot"></div></div>
+                        </div>
+                        <div class="mockup-sidebar">
+                            <div class="mockup-nav-item"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg> Overview</div>
+                            <div class="mockup-nav-item active"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"></path></svg> AI Inwarding</div>
+                        </div>
+                        <div class="mockup-main">
+                            <div class="mockup-header-text">
+                                <h3>Autonomous Inwarding</h3>
+                                <p><span class="brand-red">River</span> is processing regional supplier invoices in real-time.</p>
+                            </div>
+                            <div class="mockup-cards">
+                                <div class="mockup-card"><div class="mockup-card-label">Pending Reviews</div><div class="mockup-card-value">12</div></div>
+                                <div class="mockup-card"><div class="mockup-card-label">Auto-Approved</div><div class="mockup-card-value">1,402</div></div>
+                            </div>
+                            <div class="mockup-table-container">
+                                <table class="mockup-table">
+                                    <thead><tr><th>Vendor Name</th><th>Invoice ID</th><th>Amount</th><th>AI Status</th></tr></thead>
+                                    <tbody>
+                                        <tr><td>Coimbatore Med Suppliers</td><td class="muted" style="color: var(--ocean-muted);">INV-2026-89</td><td>₹ 45,200</td><td><span class="hf-badge gray">Expiry Alert</span></td></tr>
+                                        <tr><td>Balaji Pharma Dist.</td><td class="muted" style="color: var(--ocean-muted);">INV-2026-88</td><td>₹ 12,050</td><td><span class="hf-badge blue" style="background: #e0f2fe; color: var(--ocean-accent);">Auto-Matched</span></td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="wf-content">
-          <div class="wf-num-label">Workflow 03</div>
-          <div class="wf-title">End-of-Day RCM Clearance</div>
-          <div class="wf-body">No more hunting physical signatures or missing documents — the single biggest cause of 30–40% claim delays.</div>
-          <div class="wf-steps">
-            <div class="wf-step"><div class="wf-step-dot">1</div>RCM Manager opens River at 8 PM.</div>
-            <div class="wf-step"><div class="wf-step-dot">2</div>River has compiled complete, NABH-compliant discharge summaries.</div>
-            <div class="wf-step"><div class="wf-step-dot">3</div>Clinical data auto-mapped to exact insurance packages.</div>
-            <div class="wf-step"><div class="wf-step-dot">4</div>Manager clicks "Verify & Submit Batch." Revenue secured.</div>
-          </div>
-        </div>
-      </div>
+    </section>
 
+    <section id="problem" class="problem-section section">
+        <div class="container">
+            <span class="label framer-reveal">The Problem</span>
+            <h2 class="framer-reveal delay-1">Indian hospitals lose crores every single day.</h2>
+            <div class="problem-grid">
+                <div class="glass-panel problem-card framer-reveal delay-1">
+                    <div class="problem-stat">18–22%</div><div class="problem-title">Average Claim Denial Rate</div>
+                    <p>Clerical errors and missed documentation lead to massive insurance rejections.</p>
+                </div>
+                <div class="glass-panel problem-card framer-reveal delay-2">
+                    <div class="problem-stat">4+ hrs</div><div class="problem-title">Lost to Manual Inwarding</div>
+                    <p>Pharmacists spend half their day typing batch numbers and mapping HSN codes.</p>
+                </div>
+                <div class="glass-panel problem-card framer-reveal delay-3">
+                    <div class="problem-stat">₹Crores</div><div class="problem-title">Unrecoverable Leakage</div>
+                    <p>Consumables used in IPD/OT often never make it to the final patient bill.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="one-more-thing" class="bento-section section">
+        <div class="container">
+            <div class="theatrical-header">
+                <span class="label the-label">BUT THERE'S ONE MORE THING</span>
+                <h2 class="steve-jobs-text" style="font-size: 3.5rem; margin-top: 24px; line-height: 1.2;">
+                    <span class="line-1">An ERP.</span>
+                    <span class="line-2">A worker.</span>
+                    <span class="line-3">An assistant.</span>
+                    <span class="line-4" style="color: var(--ocean-muted); font-size: 2rem; margin-top: 24px;">Are you getting it?</span>
+                    <span class="line-5" style="font-size: 2rem;">These are not three separate things.</span>
+                    <span class="line-6 brand-red" style="font-size: 4.5rem; font-weight: 600; margin-top: 24px;">This is River.</span>
+                </h2>
+            </div>
+
+            <div class="bento-grid">
+                <div class="bento-card wide">
+                    <div class="bento-content">
+                        <h3>No more data entry.</h3>
+                        <p>Every invoice your distributor drops — crumpled, blurry, three pages long — River reads it, maps every drug name, and updates your inventory. Your staff never types a single item.</p>
+                    </div>
+                    <div class="bento-visual">
+                        <div class="mu-invoice">
+                            <div class="mu-scanner"></div>
+                            <div class="mu-line"></div><div class="mu-line"></div><div class="mu-line"></div>
+                            <div style="display: flex; gap: 8px; margin-top: 24px; flex-wrap: wrap; justify-content: center;">
+                                <span class="hf-badge blue" style="background: #e0f2fe; color: var(--ocean-accent);">Paracetamol 500mg</span>
+                                <span class="hf-badge blue" style="background: #e0f2fe; color: var(--ocean-accent);">Qty: 100</span>
+                                <span class="hf-badge blue" style="background: #e0f2fe; color: var(--ocean-accent);">HSN: 3004</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bento-card square">
+                    <div class="bento-content">
+                        <h3>No more manual checking.</h3>
+                        <p>Expiry dates. Price discrepancies. River audits everything automatically before it hits the shelf.</p>
+                    </div>
+                    <div class="bento-visual">
+                        <div class="mu-list">
+                            <div class="mu-item">Batch 8812 - OK</div>
+                            <div class="mu-item alert">Batch 44A - EXP 05/26 <br><strong>Blocked by River</strong></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bento-card square">
+                    <div class="bento-content">
+                        <h3>No more paper notes.</h3>
+                        <p>By the time the patient arrives at billing, River has read the clinical note and drafted the bill.</p>
+                    </div>
+                    <div class="bento-visual">
+                        <div class="mu-split">
+                            <div class="mu-chat">...</div>
+                            <svg viewBox="0 0 24 24" style="width: 24px; fill: none; stroke: var(--ocean-muted);"><path d="M5 12h14M12 5l7 7-7 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            <div class="mu-bill">
+                                <div class="mu-bill-row" style="border-bottom: 1px solid #f1f5f9;"><span>Consultation</span><span>₹500</span></div>
+                                <div class="mu-bill-row"><span>Syringe (10ml) x2</span><span>₹40</span></div>
+                                <div style="color: var(--brand-red); font-weight: 600; font-size: 0.8rem; margin-top:8px; border-top: 1px solid #f1f5f9; padding-top: 8px;">Ready to Bill</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bento-card wide">
+                    <div class="bento-content">
+                        <h3>No more working without a brain.</h3>
+                        <p>The admin who makes errors isn't incompetent. They're unsupported. River is the assistant that never sleeps — catching revenue leakage and doing the heavy lifting.</p>
+                    </div>
+                    <div class="bento-visual">
+                        <div class="mu-orbit"><div class="mu-dot"></div></div>
+                        <div class="mu-core"><svg viewBox="0 0 24 24" style="width: 32px; fill: white;"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"/><path d="M12 6v6l4 2"/></svg></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="rule-section section">
+        <div class="container">
+            <h2 style="text-align: center;" class="framer-reveal">The 90 / 10 Rule</h2>
+            <div class="comparison-grid framer-reveal delay-1">
+                <div class="compare-card compare-old">
+                    <div class="old-ui-header"><span>The Old Way</span></div>
+                    <div class="old-ui-row"><span>INVOICE_ID_9921</span> <span class="old-ui-error">ERROR</span></div>
+                    <div class="old-ui-row"><span>BATCH_8892_EXP</span> <span class="old-ui-error">CHECK REQ.</span></div>
+                    <div class="compare-effort" style="color: #64748b;">Staff Effort Required: 90%</div>
+                </div>
+                <div class="compare-card compare-new">
+                    <div class="new-ui-header"><span style="display: flex; align-items: center; gap: 8px;">The <span class="brand-red">River</span> Way</span></div>
+                    <div class="new-ui-row"><span>Invoice Processed</span> <span class="hf-badge blue" style="background: #e0f2fe; color: var(--ocean-accent);">Auto-Matched</span></div>
+                    <div class="new-ui-row"><span>Clinical Ledger</span> <span class="hf-badge blue" style="background: #e0f2fe; color: var(--ocean-accent);">Zero Leakage</span></div>
+                    <div class="compare-effort" style="color: var(--ocean-dark);">Staff Effort Required: 10%</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="finale" class="ocean-finale">
+        <div class="container finale-content framer-reveal">
+            <h2>River is here.</h2>
+            <p>And your hospital will never run the same way again.</p>
+            <div class="finale-btns">
+                <a href="mailto:hello@swifterstechnologies.com" class="btn btn-primary" style="background-color: var(--brand-red);">Contact Us</a>
+                <a href="#one-more-thing" class="btn-finale-outline">See How It Works</a>
+            </div>
+        </div>
+    </section>
+
+    <div class="marquee-wrapper">
+        <div class="marquee-content">
+            <div class="marquee-item">
+                <svg viewBox="0 0 24 24" style="fill:none; stroke:var(--brand-red); stroke-width:2;"><path d="M12 2L2 22h20L12 2z"/></svg> 
+                ₹12,400 leakage prevented just now
+            </div>
+            <div class="marquee-item"><svg viewBox="0 0 24 24" style="fill:none; stroke:var(--brand-red); stroke-width:2;"><path d="M12 2L2 22h20L12 2z"/></svg> 14 GRNs drafted in 0.2s</div>
+            <div class="marquee-item"><svg viewBox="0 0 24 24" style="fill:none; stroke:var(--brand-red); stroke-width:2;"><path d="M12 2L2 22h20L12 2z"/></svg> Expiring batch caught automatically</div>
+            <div class="marquee-item"><svg viewBox="0 0 24 24" style="fill:none; stroke:var(--brand-red); stroke-width:2;"><path d="M12 2L2 22h20L12 2z"/></svg> Voice Rx synced to pharmacy</div>
+            <div class="marquee-item"><svg viewBox="0 0 24 24" style="fill:none; stroke:var(--brand-red); stroke-width:2;"><path d="M12 2L2 22h20L12 2z"/></svg> ₹12,400 leakage prevented just now</div>
+            <div class="marquee-item"><svg viewBox="0 0 24 24" style="fill:none; stroke:var(--brand-red); stroke-width:2;"><path d="M12 2L2 22h20L12 2z"/></svg> 14 GRNs drafted in 0.2s</div>
+            <div class="marquee-item"><svg viewBox="0 0 24 24" style="fill:none; stroke:var(--brand-red); stroke-width:2;"><path d="M12 2L2 22h20L12 2z"/></svg> Expiring batch caught automatically</div>
+        </div>
     </div>
-  </div>
-</section>
 
-<footer>
-  <div class="footer-logo">
-    <img src="logo.png" alt="Swifters"/>
-    <div>
-      <div class="footer-name">Swifters Technologies</div>
-    </div>
-  </div>
-  <div class="footer-tagline">Automate Everything</div>
-  <div class="footer-copy">© 2025 Swifters Technologies · Website under development · River is coming soon.</div>
-</footer>
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                SWIFTERS
+            </div>
+            <div class="footer-center">Swifters Technologies &copy; 2026</div>
+            <div class="footer-right">hello@swifterstechnologies.com</div>
+        </div>
+    </footer>
 
-<script>
-// Navbar scroll
-const navbar=document.getElementById('navbar');
-window.addEventListener('scroll',()=>{
-  if(window.scrollY>60) navbar.classList.add('scrolled');
-  else navbar.classList.remove('scrolled');
-},{ passive:true });
+    <script>
+        document.addEventListener("DOMContentLoaded", (event) => {
+            // Nav styling
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 20) { navbar.classList.add('scrolled'); } 
+                else { navbar.classList.remove('scrolled'); }
+            });
 
-// Hamburger Menu Toggle
-const menuToggle = document.querySelector('.menu-toggle');
-const navActions = document.querySelector('.nav-actions');
+            // Standard Reveals (Intersection Observer)
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { root: null, rootMargin: '0px 0px -50px 0px', threshold: 0.1 });
 
-menuToggle.addEventListener('click', () => {
-  menuToggle.classList.toggle('active');
-  navActions.classList.toggle('active');
-});
+            document.querySelectorAll('.framer-reveal').forEach(el => observer.observe(el));
+            
+            // Force hero elements visible immediately
+            setTimeout(() => {
+                document.querySelectorAll('.hero .framer-reveal').forEach(el => el.classList.add('is-visible'));
+            }, 100);
 
-// Close mobile menu when a link is clicked
-document.querySelectorAll('.nav-links a, .nav-cta').forEach(link => {
-  link.addEventListener('click', () => {
-    menuToggle.classList.remove('active');
-    navActions.classList.remove('active');
-  });
-});
+            // Mouse Glare Effect for Bento Cards
+            document.querySelectorAll('.bento-card').forEach(card => {
+                card.addEventListener('mousemove', e => {
+                    const rect = card.getBoundingClientRect();
+                    card.style.setProperty('--x', `${e.clientX - rect.left}px`);
+                    card.style.setProperty('--y', `${e.clientY - rect.top}px`);
+                });
+            });
 
-// Scroll reveal
-const reveals=document.querySelectorAll('.reveal');
-const io=new IntersectionObserver((entries)=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){
-      e.target.classList.add('visible');
-      // stagger rule-list items
-      const items=e.target.querySelectorAll('.rule-list li');
-      items.forEach((li,i)=>{
-        setTimeout(()=>li.classList.add('visible'),i*90);
-      });
-    }
-  });
-},{threshold:0.12});
-reveals.forEach(r=>io.observe(r));
-</script>
+            // --- GSAP ANIMATIONS ---
+            if (window.innerWidth > 1024) { 
+                gsap.registerPlugin(ScrollTrigger);
+
+                // 1. Background Transition (Waterfall to River)
+                gsap.to('#bg-river', {
+                    opacity: 1,
+                    scrollTrigger: { trigger: '#problem', start: 'top 80%', end: 'top 20%', scrub: true }
+                });
+
+                // 2. The Pop-out Dashboard
+                gsap.to('#pop-out-dashboard', {
+                    scale: 1.15, rotateX: 0, y: 120,
+                    boxShadow: "0 60px 120px rgba(15, 23, 42, 0.2), 0 20px 40px rgba(15, 23, 42, 0.1)",
+                    ease: "none",
+                    scrollTrigger: { trigger: '.hero', start: 'center 40%', end: 'bottom top', scrub: 1 }
+                });
+
+                // 3. The Theatrical Bento Reveal
+                const tl = gsap.timeline({ scrollTrigger: { trigger: '#one-more-thing', start: 'top 60%' } });
+                tl.to('#bg-dimmer', { opacity: 1, duration: 1 })
+                  .to('.the-label', { opacity: 1, y: 0, duration: 0.5 }, "-=0.5")
+                  .to('.line-1', { opacity: 1, x: 0, duration: 0.4 })
+                  .to('.line-2', { opacity: 1, x: 0, duration: 0.4 })
+                  .to('.line-3', { opacity: 1, x: 0, duration: 0.4 })
+                  .to('.line-4', { opacity: 1, duration: 0.8 }, "+=0.3")
+                  .to('.line-5', { opacity: 1, duration: 0.6 })
+                  .to('.line-6', { opacity: 1, scale: 1, duration: 1, ease: "back.out(1.7)" })
+                  .to('.bento-card', { opacity: 1, y: 0, duration: 0.8, stagger: 0.2, ease: "power3.out" }, "-=0.2");
+
+                // 4. The Ocean Finale Background Fade
+                gsap.to('#bg-ocean', {
+                    opacity: 1,
+                    scrollTrigger: { trigger: '#finale', start: 'top 80%', end: 'center center', scrub: true }
+                });
+                
+                ScrollTrigger.refresh();
+
+            } else {
+                // Mobile Fallback for GSAP hidden elements
+                document.querySelectorAll('.steve-jobs-text span, .the-label, .bento-card').forEach(el => {
+                    el.style.opacity = 1;
+                    el.style.position = 'relative';
+                    el.style.transform = 'none';
+                    el.style.marginBottom = '24px';
+                });
+                
+                // Ensure ocean background is visible on mobile for contrast
+                gsap.to('#bg-ocean', {
+                    opacity: 1,
+                    scrollTrigger: { trigger: '#finale', start: 'top 80%', end: 'center center', scrub: true }
+                });
+            }
+        });
+    </script>
 </body>
 </html>
